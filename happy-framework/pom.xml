@@ -12,9 +12,26 @@
     <artifactId>happy-framework</artifactId>
     <description>框架模块</description>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.happy</groupId>
+            <artifactId>happy-common</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

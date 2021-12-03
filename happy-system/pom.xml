@@ -12,9 +12,5 @@
     <artifactId>happy-system</artifactId>
     <description>系统模块</description>
 
-    <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-    </properties>
 
 </project>
