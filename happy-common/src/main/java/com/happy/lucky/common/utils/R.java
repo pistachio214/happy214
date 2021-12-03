@@ -3,13 +3,13 @@ package com.happy.lucky.common.utils;
 import com.happy.lucky.common.enums.ResponseStatusEnum;
 
 //接口统一返回数据
-public class R<T> {
+public class R {
 
     private Integer code;
 
     private String message;
 
-    private T data;
+    private Object data;
 
     public Integer getCode() {
         return code;
@@ -27,18 +27,28 @@ public class R<T> {
         this.message = message;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public void setData(T data) {
+    public void setData(Object data) {
         this.data = data;
     }
 
-    public static R success() {
+    public static R success(int code, String msg, Object data) {
         R r = new R();
-        r.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        r.setCode(code);
+        r.setMessage(msg);
+        r.setData(data);
+
+        return r;
+    }
+
+    public static R success(Object data) {
+        R r = new R();
+        r.setCode(ResponseStatusEnum.ERROR.getCode());
         r.setMessage(ResponseStatusEnum.SUCCESS.getMessage());
+        r.setData(data);
 
         return r;
     }
@@ -47,14 +57,6 @@ public class R<T> {
         R r = new R();
         r.setCode(ResponseStatusEnum.ERROR.getCode());
         r.setMessage(ResponseStatusEnum.ERROR.getMessage());
-
-        return r;
-    }
-
-    public static R success(String message) {
-        R r = new R();
-        r.setCode(ResponseStatusEnum.SUCCESS.getCode());
-        r.setMessage(message);
 
         return r;
     }

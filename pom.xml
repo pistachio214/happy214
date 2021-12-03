@@ -14,7 +14,7 @@
         <module>happy-common</module>
     </modules>
 
-    <name>lucky</name>
+    <name>happy204</name>
     <description>开心快乐的后台管理</description>
 
     <properties>
@@ -26,10 +26,13 @@
         <javax.version>4.0.1</javax.version>
         <happy.version>0.0.1</happy.version>
         <java.version>1.8</java.version>
+        <hutool-all.version>5.3.3</hutool-all.version>
         <fastjson.version>1.2.78</fastjson.version>
         <lombok.version>1.18.20</lombok.version>
+        <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <hibernate-validator.version>6.2.0.Final</hibernate-validator.version>
         <spring-boot.version>2.3.7.RELEASE</spring-boot.version>
     </properties>
 
@@ -100,17 +103,30 @@
                 <version>${druid.version}</version>
             </dependency>
 
-<!--            <dependency>-->
-<!--                <groupId>com.baomidou</groupId>-->
-<!--                <artifactId>mybatis-plus-boot-starter</artifactId>-->
-<!--                <version>${mybatis-plus-boot-starter.version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus-boot-starter.version}</version>
+            </dependency>
 
-<!--            <dependency>-->
-<!--                <groupId>mysql</groupId>-->
-<!--                <artifactId>mysql-connector-java</artifactId>-->
-<!--                <version>${mysql-java.version}</version>-->
-<!--            </dependency>-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql-java.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.hibernate.validator</groupId>
+                <artifactId>hibernate-validator</artifactId>
+                <version>${hibernate-validator.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool-all.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.happy</groupId>
@@ -138,10 +154,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.1</version>
+                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
+                    <source>${javax.version}</source>
+                    <target>${javax.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>

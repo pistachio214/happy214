@@ -12,6 +12,7 @@ public enum ResponseStatusEnum {
     ERROR(500, "操作失败！"),
     UNANTHORIZED(401, "未授权"),
     FORBIDDEN(403, "访问受限,授权过期"),
+    NOT_LOGIN(1001, "未登录"),
     ;
 
     private final Integer code;

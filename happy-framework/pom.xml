@@ -18,6 +18,11 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-starter-data-redis</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
@@ -29,8 +34,18 @@
         </dependency>
 
         <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>com.happy</groupId>
             <artifactId>happy-common</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.happy</groupId>
+            <artifactId>happy-system</artifactId>
         </dependency>
     </dependencies>
 
