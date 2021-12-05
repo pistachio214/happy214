@@ -1,6 +1,5 @@
 package com.happy.lucky.framework.security.handle;
 
-import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.happy.lucky.common.enums.ResponseStatusEnum;
 import com.happy.lucky.common.utils.JwtUtil;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,8 +34,7 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
         httpServletResponse.setContentType("application/json");
         httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 
-        String res = JSON.toJSONString(R.success(data));
-        httpServletResponse.getWriter().print(Arrays.toString(res.getBytes(StandardCharsets.UTF_8)));
+        httpServletResponse.getWriter().print(JSON.toJSONString(R.success(data)));
     }
 
 

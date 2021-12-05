@@ -1,4 +1,4 @@
-package com.happy.lucky.system.service.Impl;
+package com.happy.lucky.system.services.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -7,16 +7,24 @@ import com.happy.lucky.common.utils.RedisUtil;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.domain.SysRole;
 import com.happy.lucky.system.domain.SysUser;
-import com.happy.lucky.system.mapper.SysUserMapper;
-import com.happy.lucky.system.service.ISysMenuService;
-import com.happy.lucky.system.service.ISysRoleService;
-import com.happy.lucky.system.service.ISysUserService;
+import com.happy.lucky.system.mappers.SysUserMapper;
+import com.happy.lucky.system.services.ISysMenuService;
+import com.happy.lucky.system.services.ISysRoleService;
+import com.happy.lucky.system.services.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * <p>
+ * 系统管理员表 服务实现类
+ * </p>
+ *
+ * @author psy <aileshang0226@163.com>
+ * @since 2021-09-30
+ */
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements ISysUserService {
 
@@ -34,10 +42,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public SysUser getByUsername(String username) {
-        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
-        queryWrapper.eq(SysUser::getUsername, username).eq(SysUser::getStatus, 1);
+        LambdaQueryWrapper<SysUser> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
+        userLambdaQueryWrapper.eq(SysUser::getUsername,username)
+                .eq(SysUser::getStatus,1);
 
-        return baseMapper.selectOne(queryWrapper);
+        return baseMapper.selectOne(userLambdaQueryWrapper);
     }
 
     @Override
@@ -68,5 +77,31 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
         }
         return authority;
+    }
+
+    @Override
+    public void clearUserAuthorityInfo(String username) {
+        String key = "GrantedAuthority:" + username;
+        if (redisUtil.hasKey(key)) {
+            redisUtil.del(key);
+        }
+    }
+
+    @Override
+    public void clearUserAuthorityInfoByRoleId(Long roleId) {
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        queryWrapper.inSql("id", "select user_id from sys_user_role where role_id = " + roleId);
+        List<SysUser> sysUsers = baseMapper.selectList(queryWrapper);
+        sysUsers.forEach(u -> {
+            this.clearUserAuthorityInfo(u.getUsername());
+        });
+    }
+
+    @Override
+    public void clearUserAuthorityInfoByMenuId(Long menuId) {
+        List<SysUser> sysUsers = sysUserMapper.listByMenuId(menuId);
+        sysUsers.forEach(u -> {
+            this.clearUserAuthorityInfo(u.getUsername());
+        });
     }
 }

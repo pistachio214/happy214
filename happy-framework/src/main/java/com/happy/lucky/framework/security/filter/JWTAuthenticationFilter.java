@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import com.happy.lucky.common.utils.JwtUtil;
 import com.happy.lucky.framework.service.UserDetailsServiceImpl;
 import com.happy.lucky.system.domain.SysUser;
-import com.happy.lucky.system.service.ISysUserService;
+import com.happy.lucky.system.services.ISysUserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import org.slf4j.Logger;
@@ -41,7 +41,6 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        logger.info("jwt 校验 filter");
         String jwt = request.getHeader(jwtUtil.getHeader());
         if (StrUtil.isBlankOrUndefined(jwt)) {
             chain.doFilter(request, response);

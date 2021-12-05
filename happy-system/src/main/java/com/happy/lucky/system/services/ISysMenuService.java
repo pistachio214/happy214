@@ -1,4 +1,4 @@
-package com.happy.lucky.system.service;
+package com.happy.lucky.system.services;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.happy.lucky.common.dto.SysMenuDto;

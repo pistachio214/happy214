@@ -1,5 +1,6 @@
 package com.happy.lucky.framework.config;
 
+import com.happy.lucky.common.utils.BaseUtil;
 import com.happy.lucky.framework.security.filter.CaptchaFilter;
 import com.happy.lucky.framework.security.filter.JWTAuthenticationFilter;
 import com.happy.lucky.framework.security.filter.JwtAuthenticationEntryPoint;
@@ -7,6 +8,7 @@ import com.happy.lucky.framework.security.handle.LoginFailureHandler;
 import com.happy.lucky.framework.security.handle.LoginSuccessHandler;
 import com.happy.lucky.framework.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -38,14 +40,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    public static final String[] URL_WHITELIST = {
-            "/webjars/**",
-            "/favicon.ico",
-            "/captcha",
-            "/login",
-            "/logout",
-            "/test"
-    };
+    @Value("${spring.security.matchers}")
+    private String whiteList;
+
+    /**
+     * 格式化过滤路由配置
+     *
+     * @return
+     */
+    private String[] getUrlWhitelist() {
+        if (!BaseUtil.isEmpty(whiteList)) {
+            return whiteList.trim().split(",");
+        }
+        return null;
+    }
+
+    @Bean
+    public JWTAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+        return new JWTAuthenticationFilter(authenticationManager());
+    }
 
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -55,12 +68,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);
-    }
-
-    @Bean
-    public JWTAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter(authenticationManager());
-        return jwtAuthenticationFilter;
     }
 
     @Override
@@ -75,7 +82,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 白名单
                 .and()
                 .authorizeRequests()
-                .antMatchers(URL_WHITELIST)
+                .antMatchers(getUrlWhitelist())
                 .permitAll()
                 .anyRequest()
                 .authenticated()

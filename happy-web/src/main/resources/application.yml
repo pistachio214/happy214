@@ -1,6 +1,9 @@
+server:
+  port: 14001
+
 spring:
   application:
-    name: lucky-admin-api
+    name: happy-admin-api
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -25,8 +28,8 @@ spring:
       max-file-size: 10MB
       max-request-size: 100MB
 
-server:
-  port: 14001
+  security:
+    matchers: "/webjars/**,/favicon.ico,/captcha,/login,/logout,/test,/doc.html**,/swagger-resources,/v2/api-docs**"
 
 mybatis-plus:
   configuration:
@@ -42,10 +45,13 @@ mybatis-plus:
       # 删除后
       logic-delete-value: 0
 
-luckystar:
+happy:
   jwt:
     # 加密秘钥
     secret: f4e2e52034348f86b67cde581c0f9eb5
     # token有效时长，7天，单位秒
     expire: 604800
     header: Authorization
+
+logs:
+  path: /Users/songyangpeng/workspace/java/lucky-admin/logs

@@ -1,6 +1,5 @@
 package com.happy.lucky.framework.security.handle;
 
-import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.happy.lucky.common.enums.ResponseStatusEnum;
 import com.happy.lucky.common.utils.R;
@@ -21,10 +20,9 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
     @Override
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         httpServletResponse.setStatus(ResponseStatusEnum.SUCCESS.getCode());
-        httpServletResponse.setContentType("application/json");
+        httpServletResponse.setContentType("application/json;charset=UTF-8");
         httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.toString());
 
-        String res = JSON.toJSONString(R.error(e.getMessage()));
-        httpServletResponse.getWriter().print(Arrays.toString(res.getBytes(StandardCharsets.UTF_8)));
+        httpServletResponse.getWriter().print(JSON.toJSONString(R.error(e.getMessage())));
     }
 }

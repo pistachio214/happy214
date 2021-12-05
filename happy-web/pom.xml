@@ -25,9 +25,19 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>com.happy</groupId>-->
+<!--            <artifactId>happy-common</artifactId>-->
+<!--        </dependency>-->
+
         <dependency>
             <groupId>com.happy</groupId>
-            <artifactId>happy-common</artifactId>
+            <artifactId>happy-framework</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.happy</groupId>
+            <artifactId>happy-system</artifactId>
         </dependency>
 
     </dependencies>

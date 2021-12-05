@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 
 @Component
 public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -28,9 +27,8 @@ public class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         httpServletResponse.setStatus(ResponseStatusEnum.SUCCESS.getCode());
         httpServletResponse.setContentType("application/json");
         httpServletResponse.setCharacterEncoding(StandardCharsets.UTF_8.toString());
-        httpServletResponse.getWriter().print(R.error(e.getMessage()));
 
         String res = JSON.toJSONString(R.error(ResponseStatusEnum.NOT_LOGIN.getCode(), ResponseStatusEnum.NOT_LOGIN.getMessage()));
-        httpServletResponse.getWriter().print(Arrays.toString(res.getBytes(StandardCharsets.UTF_8)));
+        httpServletResponse.getWriter().print(res);
     }
 }

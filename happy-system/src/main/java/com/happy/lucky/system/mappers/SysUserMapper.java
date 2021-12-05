@@ -1,4 +1,4 @@
-package com.happy.lucky.system.mapper;
+package com.happy.lucky.system.mappers;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.happy.lucky.system.domain.SysUser;

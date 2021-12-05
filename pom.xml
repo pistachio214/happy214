@@ -29,6 +29,8 @@
         <hutool-all.version>5.3.3</hutool-all.version>
         <fastjson.version>1.2.78</fastjson.version>
         <lombok.version>1.18.20</lombok.version>
+        <kaptcha.version>0.0.9</kaptcha.version>
+        <knife4j.version>2.0.9</knife4j.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -129,6 +131,18 @@
             </dependency>
 
             <dependency>
+                <groupId>com.github.axet</groupId>
+                <artifactId>kaptcha</artifactId>
+                <version>${kaptcha.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
+            <dependency>
                 <groupId>com.happy</groupId>
                 <artifactId>happy-common</artifactId>
                 <version>${happy.version}</version>
@@ -154,10 +168,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
+                <version>3.1</version>
                 <configuration>
-                    <source>${javax.version}</source>
-                    <target>${javax.version}</target>
+                    <source>${java.version}</source>
+                    <target>${java.version}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
                 </configuration>
             </plugin>

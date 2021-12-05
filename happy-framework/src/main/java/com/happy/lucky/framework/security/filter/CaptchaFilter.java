@@ -1,5 +1,6 @@
 package com.happy.lucky.framework.security.filter;
 
+import com.happy.lucky.common.lang.Const;
 import com.happy.lucky.common.utils.RedisUtil;
 import com.happy.lucky.framework.security.exception.CaptchaException;
 import com.happy.lucky.framework.security.handle.LoginFailureHandler;
@@ -16,8 +17,6 @@ import java.io.IOException;
 
 @Component
 public class CaptchaFilter extends OncePerRequestFilter {
-
-    public final static String CAPTCHA_KEY = "captcha";
 
     @Autowired
     private RedisUtil redisUtil;
@@ -51,11 +50,11 @@ public class CaptchaFilter extends OncePerRequestFilter {
             throw new CaptchaException("请输入验证码");
         }
 
-        if (!code.equals(redisUtil.hget(CAPTCHA_KEY, key))) {
+        if (!code.equals(redisUtil.hget(Const.CAPTCHA_KEY, key))) {
             throw new CaptchaException("验证码错误");
         }
 
         // 一次性使用
-        redisUtil.hdel(CAPTCHA_KEY, key);
+        redisUtil.hdel(Const.CAPTCHA_KEY, key);
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class IndexController {
 
-    @GetMapping("/")
+    @GetMapping("/test")
     public R test() {
         return R.success("做得很好");
     }

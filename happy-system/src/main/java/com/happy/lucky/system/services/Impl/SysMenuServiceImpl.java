@@ -1,14 +1,14 @@
-package com.happy.lucky.system.service.Impl;
+package com.happy.lucky.system.services.Impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.happy.lucky.common.dto.SysMenuDto;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.domain.SysUser;
-import com.happy.lucky.system.mapper.SysMenuMapper;
-import com.happy.lucky.system.mapper.SysUserMapper;
-import com.happy.lucky.system.service.ISysMenuService;
-import com.happy.lucky.system.service.ISysUserService;
+import com.happy.lucky.system.mappers.SysMenuMapper;
+import com.happy.lucky.system.mappers.SysUserMapper;
+import com.happy.lucky.system.services.ISysMenuService;
+import com.happy.lucky.system.services.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;

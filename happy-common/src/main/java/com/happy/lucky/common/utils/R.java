@@ -1,14 +1,20 @@
 package com.happy.lucky.common.utils;
 
 import com.happy.lucky.common.enums.ResponseStatusEnum;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 //接口统一返回数据
+@ApiModel
 public class R {
 
+    @ApiModelProperty(value = "响应代码")
     private Integer code;
 
+    @ApiModelProperty(value = "信息")
     private String message;
 
+    @ApiModelProperty(value = "响应数据")
     private Object data;
 
     public Integer getCode() {
@@ -44,9 +50,17 @@ public class R {
         return r;
     }
 
+    public static R success() {
+        R r = new R();
+        r.setCode(ResponseStatusEnum.SUCCESS.getCode());
+        r.setMessage(ResponseStatusEnum.SUCCESS.getMessage());
+
+        return r;
+    }
+
     public static R success(Object data) {
         R r = new R();
-        r.setCode(ResponseStatusEnum.ERROR.getCode());
+        r.setCode(ResponseStatusEnum.SUCCESS.getCode());
         r.setMessage(ResponseStatusEnum.SUCCESS.getMessage());
         r.setData(data);
 

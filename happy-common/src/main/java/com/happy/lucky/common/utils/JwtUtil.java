@@ -11,7 +11,7 @@ import java.util.Date;
 
 @Data
 @Component
-@ConfigurationProperties(prefix = "luckystar.jwt")
+@ConfigurationProperties(prefix = "happy.jwt")
 public class JwtUtil {
 
     private long expire;
