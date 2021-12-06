@@ -11,12 +11,10 @@ import springfox.documentation.service.Response;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
-//import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 import java.util.*;
 
 @Configuration
-//@EnableSwagger2WebMvc
 @EnableSwagger2
 public class Knife4jConfig {
 
@@ -46,7 +44,7 @@ public class Knife4jConfig {
                 .consumes(DEFAULT_PRODUCES_AND_CONSUMES)
                 .produces(DEFAULT_PRODUCES_AND_CONSUMES)
                 //分组名称
-                .groupName("2.X版本")
+                .groupName("管理系统")
                 .select()
                 //这里指定Controller扫描包路径
                 .apis(RequestHandlerSelectors.basePackage("com.happy.lucky.web.controller"))
