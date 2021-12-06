@@ -1,4 +1,4 @@
-package com.happy.lucky.web.dto;
+package com.happy.lucky.web.dto.system;
 
 import com.happy.lucky.common.dto.RequestPageDto;
 import io.swagger.annotations.ApiModel;

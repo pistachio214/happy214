@@ -1,8 +1,10 @@
 package com.happy.lucky.web.controller.system;
 
 import cn.hutool.core.map.MapUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.happy.lucky.common.dto.SysMenuDto;
+import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.common.utils.R;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.domain.SysRoleMenu;
@@ -10,6 +12,12 @@ import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.services.ISysMenuService;
 import com.happy.lucky.system.services.ISysRoleMenuService;
 import com.happy.lucky.system.services.ISysUserService;
+import com.happy.lucky.web.dto.system.RequestMenuSaveDto;
+import com.happy.lucky.web.dto.system.RequestMenuUpdateDto;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
@@ -28,6 +36,7 @@ import java.util.List;
  * @author psy <aileshang0226@163.com>
  * @since 2021-09-30
  */
+@Api(tags = "菜单模块")
 @RestController
 @RequestMapping("/sys-menu")
 public class SysMenuController {
@@ -62,28 +71,35 @@ public class SysMenuController {
         return R.success(MapUtil.builder()
                 .put("authoritys", authorityInfoArray)
                 .put("nav", navs)
-                .map()
-        );
+                .map());
     }
 
+    @ApiOperation(value = "菜单列表", notes = "权限 sys:menu:list")
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('sys:menu:list')")
-    public R list() {
+    public R<List<SysMenu>> list() {
         return R.success(sysMenuService.tree());
     }
 
+    @ApiOperation(value = "创建菜单", notes = "权限 sys:menu:save")
     @PreAuthorize("hasAnyAuthority('sys:menu:save')")
-    @PostMapping(value = "/save", produces = "application/json;charset=UTF-8")
-    public R add(@Validated @RequestBody SysMenu menu) {
+    @PostMapping(value = "/save")
+    public R<SysMenu> add(@Validated @RequestBody RequestMenuSaveDto dto) {
+        SysMenu menu = ConvertUtil.map(dto, SysMenu.class);
+
         menu.setCreatedAt(LocalDateTime.now());
         sysMenuService.save(menu);
         return R.success(menu);
     }
 
+    @ApiOperation(value = "删除菜单", notes = "权限 sys:menu:delete")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "菜单id", name = "id", required = true)
+    })
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('sys:menu:delete')")
     public R delete(@PathVariable("id") Long id) {
-        int count = sysMenuService.count(new QueryWrapper<SysMenu>().eq("parent_id", id));
+        int count = sysMenuService.count(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getParentId, id));
         if (count > 0) {
             return R.error("请先删除子菜单");
         }
@@ -92,19 +108,25 @@ public class SysMenuController {
         sysUserService.clearUserAuthorityInfoByMenuId(id);
         sysMenuService.removeById(id);
         // 同步删除中间关联表
-        sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("menu_id", id));
+        sysRoleMenuService.remove(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getMenuId, id));
         return R.success();
     }
 
+    @ApiOperation(value = "菜单详情", notes = "权限 sys:menu:list")
+    @ApiImplicitParams({
+            @ApiImplicitParam(value = "菜单id", name = "id", required = true)
+    })
     @GetMapping("/info/{id}")
     @PreAuthorize("hasAnyAuthority('sys:menu:list')")
-    public R info(@PathVariable("id") Long id) {
+    public R<SysMenu> info(@PathVariable("id") Long id) {
         return R.success(sysMenuService.getById(id));
     }
 
+    @ApiOperation(value = "更新菜单", notes = "权限 sys:menu:update")
     @PutMapping("/update")
     @PreAuthorize("hasAnyAuthority('sys:menu:update')")
-    public R update(@Validated @RequestBody SysMenu sysMenu) {
+    public R<SysMenu> update(@Validated @RequestBody RequestMenuUpdateDto dto) {
+        SysMenu sysMenu = ConvertUtil.map(dto, SysMenu.class);
         sysMenu.setUpdatedAt(LocalDateTime.now());
 
         sysMenuService.updateById(sysMenu);

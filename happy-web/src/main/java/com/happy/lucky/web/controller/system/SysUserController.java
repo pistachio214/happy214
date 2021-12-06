@@ -6,14 +6,18 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.happy.lucky.common.lang.Const;
+import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.common.utils.R;
 import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.domain.SysUserRole;
 import com.happy.lucky.system.services.ISysRoleService;
 import com.happy.lucky.system.services.ISysUserRoleService;
 import com.happy.lucky.system.services.ISysUserService;
-import com.happy.lucky.web.dto.RequestUserListDto;
+import com.happy.lucky.web.dto.system.RequestUserCreateDto;
+import com.happy.lucky.web.dto.system.RequestUserListDto;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -35,7 +39,7 @@ import java.util.List;
  * @author psy <aileshang0226@163.com>
  * @since 2021-09-30
  */
-@Api(value = "管理员模块", tags = "管理员")
+@Api(tags = "管理员模块")
 @RestController
 @RequestMapping("/sys-user")
 public class SysUserController {
@@ -52,10 +56,10 @@ public class SysUserController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @ApiOperation(value = "用户数据列表")
+    @ApiOperation(value = "用户数据列表", notes = "操作权限 sys:user:list")
     @GetMapping("/list")
     @PreAuthorize("hasAnyAuthority('sys:user:list')")
-    public R list(RequestUserListDto dto) {
+    public R<IPage<SysUser>> list(RequestUserListDto dto) {
 
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
         lambdaQueryWrapper.like(StrUtil.isNotBlank(dto.getUsername()), SysUser::getUsername, dto.getUsername())
@@ -70,6 +74,10 @@ public class SysUserController {
         return R.success(pageData);
     }
 
+    @ApiOperation(value = "删除管理员", notes = "操作权限 sys:user:delete")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "id", value = "管理员id", required = true)
+    })
     @Transactional
     @DeleteMapping("/delete/{id}")
     @PreAuthorize("hasAuthority('sys:user:delete')")
@@ -80,10 +88,11 @@ public class SysUserController {
         return R.success();
     }
 
-    @ApiOperation(value = "新增管理员", notes = "后台新增管理员数据", produces = "application/json")
+    @ApiOperation(value = "新增管理员", notes = "操作权限 sys:user:save")
     @PostMapping("/save")
     @PreAuthorize("hasAuthority('sys:user:save')")
-    public R save(@Validated @RequestBody SysUser sysUser) {
+    public R<SysUser> save(@Validated @RequestBody RequestUserCreateDto dto) {
+        SysUser sysUser = ConvertUtil.map(dto, SysUser.class);
         sysUser.setCreatedAt(LocalDateTime.now());
         sysUser.setStatus(Const.STATUS_ON);
 
@@ -98,6 +107,10 @@ public class SysUserController {
         return R.success(sysUser);
     }
 
+    @ApiOperation(value = "重置管理员密码", notes = "操作权限 sys:user:repass")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "管理员id", required = true)
+    })
     @PostMapping("/repass")
     @PreAuthorize("hasAuthority('sys:user:repass')")
     public R repass(@RequestBody Long userId) {
@@ -110,11 +123,15 @@ public class SysUserController {
         return R.success();
     }
 
+    @ApiOperation(value = "管理员设置角色", notes = "操作权限 sys:user:role")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "userId", value = "管理员id", required = true, dataType = "Long", paramType = "path"),
+            @ApiImplicitParam(name = "roleIds", value = "角色id集合", required = true, dataType = "Long[]", paramType = "body")
+    })
     @Transactional
     @PostMapping("/role/{userId}")
     @PreAuthorize("hasAuthority('sys:user:role')")
     public R rolePerm(@PathVariable("userId") Long userId, @RequestBody Long[] roleIds) {
-
         List<SysUserRole> userRoles = new ArrayList<>();
 
         Arrays.stream(roleIds).forEach(r -> {

@@ -15,8 +15,6 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
 
-import javax.validation.constraints.NotBlank;
-
 @ApiModel
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -25,12 +23,11 @@ public class SysUser extends Model {
 
     private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty(value = "id", notes = "数据ID", dataType = "Long", hidden = true)
+    @ApiModelProperty(value = "id")
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(required = true, value = "用户名称", dataType = "String")
-    @NotBlank(message = "用户名不能为空")
+    @ApiModelProperty(value = "用户名称")
     private String username;
 
     @ApiModelProperty(hidden = true)
@@ -39,14 +36,13 @@ public class SysUser extends Model {
     @ApiModelProperty(hidden = true)
     private String avatar;
 
-    @ApiModelProperty(value = "邮箱", dataType = "String")
-    @NotBlank(message = "邮箱不能为空")
+    @ApiModelProperty(value = "邮箱")
     private String email;
 
     @ApiModelProperty(hidden = true)
     private String city;
 
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(value = "创建时间")
     private LocalDateTime createdAt;
 
     @ApiModelProperty(hidden = true)
@@ -55,10 +51,10 @@ public class SysUser extends Model {
     @ApiModelProperty(hidden = true)
     private LocalDateTime lastLogin;
 
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(value = "状态")
     private Integer status;
 
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(value = "角色信息")
     @TableField(exist = false)
     private List<SysRole> sysRoles = new ArrayList<>();
 }

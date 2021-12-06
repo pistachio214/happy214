@@ -1,12 +1,16 @@
 package com.happy.lucky.common.utils;
 
 import com.happy.lucky.common.enums.ResponseStatusEnum;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 //接口统一返回数据
-@ApiModel
-public class R {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class R<T> {
 
     @ApiModelProperty(value = "响应代码")
     private Integer code;
@@ -15,87 +19,37 @@ public class R {
     private String message;
 
     @ApiModelProperty(value = "响应数据")
-    private Object data;
+    private T data;
 
-    public Integer getCode() {
-        return code;
+    private static <T> R<T> of(Integer code, String message, T data) {
+        return new R<>(code, message, data);
     }
 
-    public void setCode(Integer code) {
-        this.code = code;
+    public static <T> R<T> success(int code, String msg, T data) {
+        return of(code, msg, data);
     }
 
-    public String getMessage() {
-        return message;
+    public static <T> R<T> success() {
+        return of(ResponseStatusEnum.SUCCESS.getCode(), ResponseStatusEnum.SUCCESS.getMessage(), null);
     }
 
-    public void setMessage(String message) {
-        this.message = message;
+    public static <T> R<T> success(T data) {
+        return of(ResponseStatusEnum.SUCCESS.getCode(), ResponseStatusEnum.SUCCESS.getMessage(), data);
     }
 
-    public Object getData() {
-        return data;
+    public static <T> R<T> error() {
+        return of(ResponseStatusEnum.ERROR.getCode(), ResponseStatusEnum.ERROR.getMessage(), null);
     }
 
-    public void setData(Object data) {
-        this.data = data;
+    public static <T> R<T> error(String message) {
+        return of(ResponseStatusEnum.ERROR.getCode(), message, null);
     }
 
-    public static R success(int code, String msg, Object data) {
-        R r = new R();
-        r.setCode(code);
-        r.setMessage(msg);
-        r.setData(data);
-
-        return r;
+    public static <T> R<T> error(Integer code) {
+        return of(code, ResponseStatusEnum.ERROR.getMessage(), null);
     }
 
-    public static R success() {
-        R r = new R();
-        r.setCode(ResponseStatusEnum.SUCCESS.getCode());
-        r.setMessage(ResponseStatusEnum.SUCCESS.getMessage());
-
-        return r;
-    }
-
-    public static R success(Object data) {
-        R r = new R();
-        r.setCode(ResponseStatusEnum.SUCCESS.getCode());
-        r.setMessage(ResponseStatusEnum.SUCCESS.getMessage());
-        r.setData(data);
-
-        return r;
-    }
-
-    public static R error() {
-        R r = new R();
-        r.setCode(ResponseStatusEnum.ERROR.getCode());
-        r.setMessage(ResponseStatusEnum.ERROR.getMessage());
-
-        return r;
-    }
-
-    public static R error(String message) {
-        R r = new R();
-        r.setCode(ResponseStatusEnum.ERROR.getCode());
-        r.setMessage(message);
-
-        return r;
-    }
-
-    public static R error(Integer code) {
-        R r = new R();
-        r.setCode(code);
-        r.setMessage(ResponseStatusEnum.ERROR.getMessage());
-
-        return r;
-    }
-
-    public static R error(Integer code, String message) {
-        R r = new R();
-        r.setCode(code);
-        r.setMessage(message);
-
-        return r;
+    public static <T> R<T> error(Integer code, String message) {
+        return of(code, message, null);
     }
 }
