@@ -19,9 +19,10 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.Map;
 import java.util.UUID;
 
-@Api(value = "公共验证控制器", tags = "验证模块")
+@Api(tags = "验证模块")
 @RestController
 public class AuthController {
 
@@ -38,7 +39,7 @@ public class AuthController {
      */
     @ApiOperation(value = "获取图片验证码", notes = "图片验证码格式为base64位")
     @GetMapping("/captcha")
-    public R captcha() throws IOException {
+    public R<Map<Object, Object>> captcha() throws IOException {
         String code = producer.createText();
         String key = UUID.randomUUID().toString();
         BufferedImage image = producer.createImage(code);
