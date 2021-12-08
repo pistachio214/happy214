@@ -28,9 +28,6 @@ spring:
       max-file-size: 10MB
       max-request-size: 100MB
 
-  security:
-    matchers: "/webjars/**,/favicon.ico,/captcha,/login,/logout,/test,/doc.html**,/swagger-resources,/v2/api-docs**"
-
 mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
@@ -52,6 +49,11 @@ happy:
     # token有效时长，7天，单位秒
     expire: 604800
     header: Authorization
+  security:
+    # 设置不需要验证的路径
+    matchers: "/webjars/**,/favicon.ico,/sys-auth/captcha,/login,/logout,/test,/doc.html**,/swagger-resources,/v2/api-docs**"
+    admin-login: "/login"
+    admin-logout: "/logout"
 
 logs:
   path: /Users/songyangpeng/workspace/java/lucky-admin/logs

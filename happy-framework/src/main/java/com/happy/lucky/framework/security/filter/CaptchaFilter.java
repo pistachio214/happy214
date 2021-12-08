@@ -6,6 +6,8 @@ import com.happy.lucky.framework.security.exception.CaptchaException;
 import com.happy.lucky.framework.security.handle.LoginFailureHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,17 +26,20 @@ public class CaptchaFilter extends OncePerRequestFilter {
     @Autowired
     private LoginFailureHandler loginFailureHandler;
 
+    @Value("${happy.security.admin-login}")
+    private String loginProcessingUrl;
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
         String url = httpServletRequest.getRequestURI();
-        if ("/login".equals(url) && httpServletRequest.getMethod().equals("POST")) {
+        if (loginProcessingUrl.equals(url) && httpServletRequest.getMethod().equals("POST")) {
             try {
                 // 校验验证码
                 validate(httpServletRequest);
             } catch (CaptchaException e) {
                 // 交给认证失败处理器
                 loginFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
+                return;
             }
         }
 

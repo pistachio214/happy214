@@ -1,4 +1,4 @@
-package com.happy.lucky.web.controller;
+package com.happy.lucky.web.controller.system;
 
 import cn.hutool.core.map.MapUtil;
 import com.google.code.kaptcha.Producer;
@@ -10,9 +10,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
@@ -22,11 +20,12 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
-@Api(tags = "验证模块")
+@Api(tags = "后台验证模块")
 @RestController
-public class AuthController {
+@RequestMapping("/sys-auth")
+public class SysAuthController {
 
-    private static final Logger logger = LoggerFactory.getLogger(AuthController.class);
+    private static final Logger logger = LoggerFactory.getLogger(SysAuthController.class);
 
     @Autowired
     private Producer producer;
@@ -53,11 +52,5 @@ public class AuthController {
         logger.info("验证码 -- {} - {}", key, code);
 
         return R.success(MapUtil.builder().put("token", key).put("base64Img", base64Img).build());
-    }
-
-    @GetMapping("/xxxx/test")
-    @PreAuthorize("hasAnyAuthority('sys:xxx:test')")
-    public R test() {
-        return R.success("权限到不了的地方");
     }
 }

@@ -3,19 +3,19 @@ package com.happy.lucky.framework.config;
 import com.happy.lucky.common.enums.ResponseStatusEnum;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.web.bind.annotation.RequestMethod;
 import springfox.documentation.builders.*;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
-import springfox.documentation.service.Response;
+import springfox.documentation.service.ResponseMessage;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 import java.util.*;
 
 @Configuration
-@EnableSwagger2
+@EnableSwagger2WebMvc
 public class Knife4jConfig {
 
     //配置content type
@@ -25,21 +25,21 @@ public class Knife4jConfig {
 
     @Bean(value = "defaultApi2")
     public Docket defaultApi2() {
-        List<Response> globalResponses = new ArrayList<>();
+        List<ResponseMessage> globalResponses = new ArrayList<>();
         for (ResponseStatusEnum item : ResponseStatusEnum.values()) {
-            globalResponses.add(new ResponseBuilder()
-                    .code(item.getCode().toString())
-                    .description(item.getMessage())
+            globalResponses.add(new ResponseMessageBuilder()
+                    .code(item.getCode())
+                    .message(item.getMessage())
                     .build());
         }
 
         return new Docket(DocumentationType.SWAGGER_2)
                 .useDefaultResponseMessages(true)
-                .globalResponses(HttpMethod.GET, globalResponses)
-                .globalResponses(HttpMethod.POST, globalResponses)
-                .globalResponses(HttpMethod.DELETE, globalResponses)
-                .globalResponses(HttpMethod.PUT, globalResponses)
-                .globalResponses(HttpMethod.PATCH, globalResponses)
+                .globalResponseMessage(RequestMethod.GET, globalResponses)
+                .globalResponseMessage(RequestMethod.POST, globalResponses)
+                .globalResponseMessage(RequestMethod.DELETE, globalResponses)
+                .globalResponseMessage(RequestMethod.PUT, globalResponses)
+                .globalResponseMessage(RequestMethod.PATCH, globalResponses)
                 .apiInfo(apiInfoBuilder())
                 .consumes(DEFAULT_PRODUCES_AND_CONSUMES)
                 .produces(DEFAULT_PRODUCES_AND_CONSUMES)

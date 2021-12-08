@@ -20,6 +20,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import java.util.Objects;
+
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -40,7 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsServiceImpl userDetailsService;
 
-    @Value("${spring.security.matchers}")
+    @Value("${happy.security.matchers}")
     private String whiteList;
 
     /**
@@ -82,7 +84,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 白名单
                 .and()
                 .authorizeRequests()
-                .antMatchers(getUrlWhitelist())
+                .antMatchers(Objects.requireNonNull(getUrlWhitelist()))
                 .permitAll()
                 .anyRequest()
                 .authenticated()
