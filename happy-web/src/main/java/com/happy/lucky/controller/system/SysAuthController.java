@@ -1,4 +1,4 @@
-package com.happy.lucky.web.controller.system;
+package com.happy.lucky.controller.system;
 
 import cn.hutool.core.map.MapUtil;
 import com.google.code.kaptcha.Producer;

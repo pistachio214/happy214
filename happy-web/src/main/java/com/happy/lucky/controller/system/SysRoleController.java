@@ -1,4 +1,4 @@
-package com.happy.lucky.web.controller.system;
+package com.happy.lucky.controller.system;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -14,9 +14,9 @@ import com.happy.lucky.system.services.ISysRoleMenuService;
 import com.happy.lucky.system.services.ISysRoleService;
 import com.happy.lucky.system.services.ISysUserRoleService;
 import com.happy.lucky.system.services.ISysUserService;
-import com.happy.lucky.web.dto.system.RequestRoleCreateDto;
-import com.happy.lucky.web.dto.system.RequestRoleListDto;
-import com.happy.lucky.web.dto.system.RequestRoleUpdateDto;
+import com.happy.lucky.dto.system.RequestRoleCreateDto;
+import com.happy.lucky.dto.system.RequestRoleListDto;
+import com.happy.lucky.dto.system.RequestRoleUpdateDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -25,7 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;

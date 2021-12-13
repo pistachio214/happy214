@@ -1,19 +1,18 @@
-package com.happy.lucky.web.controller.system;
+package com.happy.lucky.controller.system;
 
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.happy.lucky.common.dto.SysMenuDto;
 import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.common.utils.R;
+import com.happy.lucky.dto.system.RequestMenuSaveDto;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.domain.SysRoleMenu;
 import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.services.ISysMenuService;
 import com.happy.lucky.system.services.ISysRoleMenuService;
 import com.happy.lucky.system.services.ISysUserService;
-import com.happy.lucky.web.dto.system.RequestMenuSaveDto;
-import com.happy.lucky.web.dto.system.RequestMenuUpdateDto;
+import com.happy.lucky.dto.system.RequestMenuUpdateDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

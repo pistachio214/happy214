@@ -22,7 +22,6 @@ public class Knife4jConfig {
     private static final Set<String> DEFAULT_PRODUCES_AND_CONSUMES =
             new HashSet<>(Arrays.asList("application/json", "charset=UTF-8"));
 
-
     @Bean(value = "defaultApi2")
     public Docket defaultApi2() {
         List<ResponseMessage> globalResponses = new ArrayList<>();
@@ -47,14 +46,15 @@ public class Knife4jConfig {
                 .groupName("管理系统")
                 .select()
                 //这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.happy.lucky.web.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.happy.lucky.controller"))
                 .paths(PathSelectors.any())
                 .build();
-
     }
 
     private ApiInfo apiInfoBuilder() {
-        Contact contact = new Contact("Songyang Peng", "https://github.com/RogerPeng123", "aileshang0226@163.com");
+        Contact contact = new Contact("Songyang Peng",
+                "https://github.com/RogerPeng123", "aileshang0226@163.com");
+
         return new ApiInfoBuilder()
                 .title("开心后台管理系统API文档")
                 .description("# 管理系统Api文档")
