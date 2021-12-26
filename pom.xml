@@ -14,12 +14,12 @@
         <module>happy-common</module>
     </modules>
 
-    <name>happy204</name>
+    <name>happy211</name>
     <description>开心快乐的后台管理</description>
 
     <properties>
         <druid.version>1.2.8</druid.version>
-        <mybatis-plus-boot-starter.version>3.2.0</mybatis-plus-boot-starter.version>
+        <mybatis-plus-boot-starter.version>3.4.2</mybatis-plus-boot-starter.version>
         <jjwt.version>0.9.1</jjwt.version>
         <mysql-java.version>8.0.27</mysql-java.version>
         <commons-lang3.version>3.12.0</commons-lang3.version>
