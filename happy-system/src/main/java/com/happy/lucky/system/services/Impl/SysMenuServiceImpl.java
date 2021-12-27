@@ -38,7 +38,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         SysUser sysUser = sysUserService.getByUsername(username);
 
-        List<Long> menuIds = sysUserMapper.getNavMenuIds(sysUser.getId());
+        List<Long> menuIds = sysUserMapper.getNavMenu(sysUser.getId());
         List<SysMenu> menus = baseMapper.selectBatchIds(menuIds);
 
         // 转树状结构
@@ -91,7 +91,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         for (SysMenu menu : menus) {
 
             for (SysMenu e : menus) {
-                if (menu.getId() == e.getParentId()) {
+                if (menu.getId().equals(e.getParentId())) {
                     menu.getChildren().add(e);
                 }
             }

@@ -11,6 +11,8 @@ import java.util.List;
 @Component
 public interface SysUserMapper extends BaseMapper<SysUser> {
     List<Long> getNavMenuIds(Long userId);
+    
+    List<Long> getNavMenu(Long userId);
 
     List<SysUser> listByMenuId(Long menuId);
 }
