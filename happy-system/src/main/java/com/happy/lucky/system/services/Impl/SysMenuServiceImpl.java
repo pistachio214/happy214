@@ -71,6 +71,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
             dto.setTitle(m.getName());
             dto.setComponent(m.getComponent());
             dto.setPath(m.getPath());
+            dto.setIcon(m.getIcon());
 
             if (m.getChildren().size() > 0) {
                 // 子节点调用当前方法进行再次转换
@@ -84,18 +85,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     private List<SysMenu> buildTreeMenu(List<SysMenu> menus) {
-
         List<SysMenu> finalMenus = new ArrayList<>();
-
         // 先各自寻找到各自的孩子
         for (SysMenu menu : menus) {
-
             for (SysMenu e : menus) {
                 if (menu.getId().equals(e.getParentId())) {
                     menu.getChildren().add(e);
                 }
             }
-
             // 提取出父节点
             if (menu.getParentId() == 0L) {
                 finalMenus.add(menu);
