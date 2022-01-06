@@ -120,7 +120,7 @@ public class SysUserController {
         sysUser.setUpdatedAt(LocalDateTime.now());
 
         sysUserService.updateById(sysUser);
-        return R.success();
+        return R.success(Const.DEFULT_PASSWORD);
     }
 
     @ApiOperation(value = "管理员设置角色", notes = "操作权限 sys:user:role")
