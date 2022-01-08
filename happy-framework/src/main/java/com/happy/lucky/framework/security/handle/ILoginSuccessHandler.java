@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
-public class LoginSuccessHandler implements AuthenticationSuccessHandler {
+public class ILoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Autowired
     private JwtUtil jwtUtil;

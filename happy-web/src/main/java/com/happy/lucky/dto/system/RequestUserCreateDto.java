@@ -14,6 +14,10 @@ public class RequestUserCreateDto {
     @NotBlank(message = "用户名不能为空")
     private String username;
 
+    @ApiModelProperty(value = "昵称", required = true)
+    @NotBlank(message = "昵称不能为空")
+    private String nickname;
+
     @ApiModelProperty(value = "邮箱", required = true)
     @NotBlank(message = "邮箱不能为空")
     private String email;

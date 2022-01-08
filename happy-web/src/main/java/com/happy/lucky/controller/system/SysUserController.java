@@ -2,7 +2,7 @@ package com.happy.lucky.controller.system;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.happy.lucky.common.lang.Const;
@@ -10,6 +10,8 @@ import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.common.utils.R;
 import com.happy.lucky.dto.system.RequestUserCreateDto;
 import com.happy.lucky.dto.system.RequestUserListDto;
+import com.happy.lucky.dto.system.RequestUserSaveAvatarDto;
+import com.happy.lucky.framework.utils.SecurityUtil;
 import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.domain.SysUserRole;
 import com.happy.lucky.system.services.ISysRoleService;
@@ -150,6 +152,27 @@ public class SysUserController {
         SysUser sysUser = sysUserService.getById(userId);
         sysUserService.clearUserAuthorityInfo(sysUser.getUsername());
 
+        return R.success();
+    }
+
+    @ApiOperation(value = "修改管理员头像", notes = "操作权限 sys:user:save:avatar")
+    @PostMapping("/saveAvatar")
+    @PreAuthorize("hasAuthority('sys:user:save:avatar')")
+    public R saveAvatar(@Validated @RequestBody RequestUserSaveAvatarDto dto) {
+        LambdaUpdateWrapper<SysUser> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
+        lambdaUpdateWrapper
+                .eq(SysUser::getId, SecurityUtil.getCurrentUser().getId())
+                .set(SysUser::getAvatar, dto.getAvatar());
+
+        if (!sysUserService.update(lambdaUpdateWrapper)) {
+            return R.error("修改头像失败");
+        }
+
+        return R.success();
+    }
+
+    //TODO 修改密码
+    public R changePassword() {
         return R.success();
     }
 

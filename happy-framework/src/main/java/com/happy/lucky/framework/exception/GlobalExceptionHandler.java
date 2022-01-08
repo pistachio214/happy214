@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -61,6 +63,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = RuntimeException.class)
     public R handler(RuntimeException e) {
+        e.printStackTrace();
         logger.error("运行时异常：----------------{}", e.getMessage());
         return R.error(e.getMessage());
     }
@@ -71,4 +74,12 @@ public class GlobalExceptionHandler {
         logger.error("运行时异常：----------------{}", e.getMessage());
         return R.error(e.getMessage());
     }
+
+//    @ResponseStatus(HttpStatus.BAD_REQUEST)
+//    @ExceptionHandler(value = AuthenticationException.class)
+//    public R handler(AuthenticationException e) {
+//        e.printStackTrace();
+//        return R.error("11111111111111111111111111");
+//    }
+
 }

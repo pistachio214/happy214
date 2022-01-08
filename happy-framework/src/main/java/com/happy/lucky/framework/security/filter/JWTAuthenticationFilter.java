@@ -2,7 +2,7 @@ package com.happy.lucky.framework.security.filter;
 
 import cn.hutool.core.util.StrUtil;
 import com.happy.lucky.common.utils.JwtUtil;
-import com.happy.lucky.framework.service.UserDetailsServiceImpl;
+import com.happy.lucky.framework.service.IUserDetailsServiceImpl;
 import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.services.ISysUserService;
 import io.jsonwebtoken.Claims;
@@ -33,7 +33,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
     private ISysUserService sysUserService;
 
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private IUserDetailsServiceImpl userDetailsService;
 
     public JWTAuthenticationFilter(AuthenticationManager authenticationManager) {
         super(authenticationManager);
@@ -60,7 +60,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
         List<GrantedAuthority> grantedAuthorities = userDetailsService.getUserAuthority(sysUser.getId());
 
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
-                = new UsernamePasswordAuthenticationToken(username, null, grantedAuthorities);
+                = new UsernamePasswordAuthenticationToken(sysUser, null, grantedAuthorities);
         SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
         chain.doFilter(request, response);
     }

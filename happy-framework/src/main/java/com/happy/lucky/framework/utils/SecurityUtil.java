@@ -1,11 +1,14 @@
 package com.happy.lucky.framework.utils;
 
 import com.happy.lucky.framework.domain.AccountUser;
+import com.happy.lucky.system.domain.SysUser;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 /**
  * 安全工具
  */
+@Component
 public class SecurityUtil {
 
     /**
@@ -13,8 +16,8 @@ public class SecurityUtil {
      *
      * @return AccountUser
      */
-    public static AccountUser getCurrentUser() {
-        Object details = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        return details instanceof AccountUser ? (AccountUser) details : null;
+    public static SysUser getCurrentUser() {
+        Object details = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return details instanceof SysUser ? (SysUser) details : null;
     }
 }

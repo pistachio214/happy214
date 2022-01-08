@@ -4,13 +4,17 @@ import com.happy.lucky.common.utils.BaseUtil;
 import com.happy.lucky.framework.security.filter.CaptchaFilter;
 import com.happy.lucky.framework.security.filter.JWTAuthenticationFilter;
 import com.happy.lucky.framework.security.filter.JwtAuthenticationEntryPoint;
-import com.happy.lucky.framework.security.handle.LoginFailureHandler;
-import com.happy.lucky.framework.security.handle.LoginSuccessHandler;
-import com.happy.lucky.framework.service.UserDetailsServiceImpl;
+import com.happy.lucky.framework.security.handle.ILoginFailureHandler;
+import com.happy.lucky.framework.security.handle.ILoginSuccessHandler;
+import com.happy.lucky.framework.security.handle.ILogoutSuccessHandler;
+import com.happy.lucky.framework.service.IDaoAuthenticationProvider;
+import com.happy.lucky.framework.service.IUserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,10 +32,13 @@ import java.util.Objects;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    private LoginFailureHandler loginFailureHandler;
+    private ILoginFailureHandler loginFailureHandler;
 
     @Autowired
-    private LoginSuccessHandler loginSuccessHandler;
+    private ILoginSuccessHandler loginSuccessHandler;
+
+    @Autowired
+    private ILogoutSuccessHandler logoutSuccessHandler;
 
     @Autowired
     private JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
@@ -39,11 +46,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private CaptchaFilter captchaFilter;
 
+//    @Autowired
+//    private IUserDetailsServiceImpl userDetailsService;
+
     @Autowired
-    private UserDetailsServiceImpl userDetailsService;
+    private IDaoAuthenticationProvider iDaoAuthenticationProvider;
 
     @Value("${happy.security.matchers}")
     private String whiteList;
+
+    @Value("${happy.security.admin-login}")
+    private String loginUrl;
+
+    @Value("${happy.security.admin-logout}")
+    private String logoutUrl;
 
     /**
      * 格式化过滤路由配置
@@ -67,17 +83,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+//    @Bean
+//    public DaoAuthenticationProvider authenticationProvider() {
+//        IDaoAuthenticationProvider provider = new IDaoAuthenticationProvider();
+//        provider.setHideUserNotFoundExceptions(false);
+//        provider.setUserDetailsService(userDetailsService);
+//        provider.setPasswordEncoder(new BCryptPasswordEncoder());
+//        return provider;
+//    }
+
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+//        auth.userDetailsService(userDetailsService);
+        auth.authenticationProvider(iDaoAuthenticationProvider);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
 
+                .logout()
+                .logoutUrl(logoutUrl)
+                .logoutSuccessHandler(logoutSuccessHandler)
+
                 // 登录配置
+                .and()
                 .formLogin()
+                .loginPage(loginUrl)
                 .failureHandler(loginFailureHandler)
                 .successHandler(loginSuccessHandler)
 

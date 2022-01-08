@@ -3,11 +3,10 @@ package com.happy.lucky.framework.security.filter;
 import com.happy.lucky.common.lang.Const;
 import com.happy.lucky.common.utils.RedisUtil;
 import com.happy.lucky.framework.security.exception.CaptchaException;
-import com.happy.lucky.framework.security.handle.LoginFailureHandler;
+import com.happy.lucky.framework.security.handle.ILoginFailureHandler;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -24,7 +23,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
     private RedisUtil redisUtil;
 
     @Autowired
-    private LoginFailureHandler loginFailureHandler;
+    private ILoginFailureHandler ILoginFailureHandler;
 
     @Value("${happy.security.admin-login}")
     private String loginProcessingUrl;
@@ -38,7 +37,7 @@ public class CaptchaFilter extends OncePerRequestFilter {
                 validate(httpServletRequest);
             } catch (CaptchaException e) {
                 // 交给认证失败处理器
-                loginFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
+                ILoginFailureHandler.onAuthenticationFailure(httpServletRequest, httpServletResponse, e);
                 return;
             }
         }

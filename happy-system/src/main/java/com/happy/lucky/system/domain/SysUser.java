@@ -9,6 +9,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.happy.lucky.common.utils.BaseUtil;
+import com.happy.lucky.common.utils.MinioUtil;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -36,7 +38,7 @@ public class SysUser extends Model {
     @ApiModelProperty(hidden = true)
     private String password;
 
-    @ApiModelProperty(hidden = true)
+    @ApiModelProperty(value = "头像")
     private String avatar;
 
     @ApiModelProperty(value = "邮箱")
@@ -60,4 +62,11 @@ public class SysUser extends Model {
     @ApiModelProperty(value = "角色信息")
     @TableField(exist = false)
     private List<SysRole> sysRoles = new ArrayList<>();
+
+    public String getAvatar() {
+        if (BaseUtil.isEmpty(avatar)){
+            return null;
+        }
+        return MinioUtil.generatorUrl(avatar);
+    }
 }

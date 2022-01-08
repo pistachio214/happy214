@@ -26,7 +26,7 @@ public class AccountUser implements UserDetails {
     public AccountUser(Long userId, String username, String password, Collection<? extends GrantedAuthority> authorities) {
         this(userId, username, password, true, true, true, true, authorities);
     }
-    
+
     public AccountUser(Long userId, String username, String password, boolean enabled, boolean accountNonExpired,
                        boolean credentialsNonExpired, boolean accountNonLocked,
                        Collection<? extends GrantedAuthority> authorities) {
@@ -75,5 +75,9 @@ public class AccountUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return this.enabled;
+    }
+
+    public Long getUserId() {
+        return this.userId;
     }
 }

@@ -51,9 +51,15 @@ happy:
     header: Authorization
   security:
     # 设置不需要验证的路径
-    matchers: "/webjars/**,/favicon.ico,/sys-auth/captcha,/login,/logout,/test,/doc.html**,/swagger-resources,/v2/api-docs**"
+    matchers: "/webjars/**,/favicon.ico,/sys-auth/captcha,/login,/test,/doc.html**,/swagger-resources,/common/**,/v2/api-docs**"
     admin-login: "/login"
     admin-logout: "/logout"
 
+minio:
+  endpoint: http://123.57.48.127:9000
+  accessKey: admin
+  secretKey: admin123456
+  bucketName: mlcloud
+
 logs:
-  path: /Users/songyangpeng/workspace/java/lucky-admin/logs
+  path: D:\html\happy-lucky-admin\logs

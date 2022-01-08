@@ -6,6 +6,8 @@ import com.happy.lucky.common.dto.SysMenuDto;
 import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.common.utils.R;
 import com.happy.lucky.dto.system.RequestMenuSaveDto;
+import com.happy.lucky.framework.domain.AccountUser;
+import com.happy.lucky.framework.utils.SecurityUtil;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.domain.SysRoleMenu;
 import com.happy.lucky.system.domain.SysUser;
@@ -54,13 +56,11 @@ public class SysMenuController {
     /**
      * 用户当前用户的菜单和权限信息
      *
-     * @param principal
      * @return
      */
     @GetMapping("/nav")
-    public R nav(Principal principal) {
-        SysUser sysUser = sysUserService.getByUsername(principal.getName());
-
+    public R nav() {
+        SysUser sysUser = SecurityUtil.getCurrentUser();
         // 获取权限信息
         String authorityInfo = sysUserService.getUserAuthorityInfo(sysUser.getId());
         // ROLE_admin,ROLE_normal,sys:user:list,....

@@ -35,8 +35,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenuDto> getCurrentUserNav() {
-        String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        SysUser sysUser = sysUserService.getByUsername(username);
+        SysUser sysUser = (SysUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
         List<Long> menuIds = sysUserMapper.getNavMenu(sysUser.getId());
         List<SysMenu> menus = baseMapper.selectBatchIds(menuIds);
