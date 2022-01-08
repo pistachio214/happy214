@@ -27,8 +27,11 @@ public class SysUser extends Model {
     @TableId(value = "id", type = IdType.AUTO)
     private Long id;
 
-    @ApiModelProperty(value = "用户名称")
+    @ApiModelProperty(value = "用户账号")
     private String username;
+
+    @ApiModelProperty(value = "用户昵称")
+    private String nickname;
 
     @ApiModelProperty(hidden = true)
     private String password;

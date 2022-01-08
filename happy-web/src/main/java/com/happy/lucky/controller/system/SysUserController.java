@@ -94,7 +94,6 @@ public class SysUserController {
     public R<SysUser> save(@Validated @RequestBody RequestUserCreateDto dto) {
         SysUser sysUser = ConvertUtil.map(dto, SysUser.class);
         sysUser.setCreatedAt(LocalDateTime.now());
-        sysUser.setStatus(Const.STATUS_ON);
 
         // 默认密码
         String password = passwordEncoder.encode(Const.DEFULT_PASSWORD);
@@ -144,7 +143,7 @@ public class SysUserController {
             userRoles.add(sysUserRole);
         });
 
-        sysUserRoleService.remove(new QueryWrapper<SysUserRole>().eq("user_id", userId));
+        sysUserRoleService.remove(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
         sysUserRoleService.saveBatch(userRoles);
 
         // 删除缓存

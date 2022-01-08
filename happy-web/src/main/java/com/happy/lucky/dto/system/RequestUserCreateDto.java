@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @ApiModel(value = "创建管理员")
 @Data
@@ -18,6 +19,6 @@ public class RequestUserCreateDto {
     private String email;
 
     @ApiModelProperty(value = "状态 1启用 0禁止", required = true)
-    @NotBlank(message = "状态不能为空")
+    @NotNull(message = "状态不能为空")
     private Integer status;
 }

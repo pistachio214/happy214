@@ -11,4 +11,7 @@ public class RequestRoleListDto extends RequestPageDto {
 
     @ApiModelProperty(value = "角色名称")
     private String name;
+
+    @ApiModelProperty(value = "唯一编码")
+    private String code;
 }

@@ -25,7 +25,9 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -67,9 +69,15 @@ public class SysMenuController {
         // 获取导航栏信息
         List<SysMenuDto> navs = sysMenuService.getCurrentUserNav();
 
+        //获取用户的昵称和头像
+        Map<String, String> user = new HashMap<>();
+        user.put("nickname", sysUser.getNickname());
+        user.put("avatar", sysUser.getAvatar());
+
         return R.success(MapUtil.builder()
                 .put("authoritys", authorityInfoArray)
                 .put("nav", navs)
+                .put("user", user)
                 .map());
     }
 

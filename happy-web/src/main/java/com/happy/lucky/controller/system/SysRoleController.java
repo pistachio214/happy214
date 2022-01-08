@@ -69,6 +69,7 @@ public class SysRoleController {
     public R<IPage<SysRole>> list(RequestRoleListDto dto) {
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(StrUtil.isNotBlank(dto.getName()), SysRole::getName, dto.getName());
+        queryWrapper.like(StrUtil.isNotBlank(dto.getCode()), SysRole::getCode, dto.getCode());
         queryWrapper.orderByDesc(SysRole::getCreatedAt);
 
         IPage<SysRole> roles = sysRoleService.page(new Page<>(dto.getCurrent(), dto.getSize()), queryWrapper);
@@ -85,8 +86,8 @@ public class SysRoleController {
         SysRole sysRole = sysRoleService.getById(id);
 
         // 获取角色相关联的菜单id
-        QueryWrapper<SysRoleMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("role_id", id);
+        LambdaQueryWrapper<SysRoleMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysRoleMenu::getRoleId, id);
 
         List<SysRoleMenu> roleMenus = sysRoleMenuService.list(queryWrapper);
         List<Long> menuIds = roleMenus.stream().map(SysRoleMenu::getMenuId).collect(Collectors.toList());
@@ -119,6 +120,14 @@ public class SysRoleController {
     @PreAuthorize("hasAnyAuthority('sys:role:save')")
     public R<SysRole> save(@Validated @RequestBody RequestRoleCreateDto dto) {
         SysRole sysRole = ConvertUtil.map(dto, SysRole.class);
+        LambdaQueryWrapper<SysRole> lambdaQueryWrapper = new LambdaQueryWrapper<>();
+        lambdaQueryWrapper.eq(SysRole::getCode, dto.getCode());
+
+        int count = sysRoleService.count(lambdaQueryWrapper);
+        if (count > 0) {
+            return R.error("唯一编码已存在!");
+        }
+
         sysRole.setCreatedAt(LocalDateTime.now());
         sysRoleService.save(sysRole);
 
@@ -159,8 +168,8 @@ public class SysRoleController {
             sysRoleMenus.add(roleMenu);
         });
 
-        // 先删除原来的记录，再保存新的
-        sysRoleMenuService.remove(new QueryWrapper<SysRoleMenu>().eq("role_id", roleId));
+        // 先删除原来的记录，再保存新的信息
+        sysRoleMenuService.remove(new LambdaQueryWrapper<SysRoleMenu>().eq(SysRoleMenu::getRoleId, roleId));
         sysRoleMenuService.saveBatch(sysRoleMenus);
 
         // 删除缓存
