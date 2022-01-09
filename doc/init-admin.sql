@@ -133,3 +133,33 @@ VALUES
 
 
 ALTER TABLE `sys_user` ADD `type` INT(3) DEFAULT 1 COMMENT '用户类型: 1管理员; 2普通用户; ' AFTER `password`;
+
+DROP TABLE IF EXISTS `sys_dict`;
+CREATE TABLE `sys_dict` (
+  `id` bigint NOT NULL COMMENT '编号',
+  `type` varchar(100) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `remarks` varchar(255) DEFAULT NULL,
+  `system` char(1) DEFAULT '0',
+  `del_flag` char(1) DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典表';
+
+DROP TABLE IF EXISTS `sys_dict_item`;
+CREATE TABLE `sys_dict_item` (
+  `id` bigint NOT NULL COMMENT '编号',
+  `dict_id` bigint NOT NULL,
+  `value` varchar(100) DEFAULT NULL,
+  `label` varchar(100) DEFAULT NULL,
+  `type` varchar(100) DEFAULT NULL,
+  `description` varchar(100) DEFAULT NULL,
+  `sort` int NOT NULL DEFAULT '0' COMMENT '排序（升序）',
+  `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `update_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+  `remarks` varchar(255) DEFAULT NULL,
+  `del_flag` char(1) DEFAULT '0',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='字典项';
+
