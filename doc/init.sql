@@ -7,7 +7,7 @@ CREATE TABLE `sys_menu` (
   `path` varchar(255) DEFAULT NULL COMMENT '菜单URL',
   `perms` varchar(255) DEFAULT NULL COMMENT '授权(多个用逗号分隔，如：user:list,user:create)',
   `component` varchar(255) DEFAULT NULL,
-  `type` int NOT NULL COMMENT '类型     0：目录   1：菜单   2：按钮',
+  `type` int NOT NULL COMMENT '类型: 0目录; 1菜单; 2按钮;',
   `icon` varchar(32) DEFAULT NULL COMMENT '菜单图标',
   `orderNum` int DEFAULT NULL COMMENT '排序',
   `created_at` datetime NOT NULL,
@@ -132,4 +132,4 @@ VALUES
 	(28,6,1,'2022-01-07 15:48:49',NULL,1);
 
 
-ALTER TABLE `sys_user` ADD `type` INT(3) DEFAULT 1 COMMENT '用户类型: 1管理员 2普通用户 ' AFTER `password`;
+ALTER TABLE `sys_user` ADD `type` INT(3) DEFAULT 1 COMMENT '用户类型: 1管理员; 2普通用户; ' AFTER `password`;
