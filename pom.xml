@@ -8,7 +8,7 @@
     <version>0.0.1</version>
 
     <modules>
-        <module>happy-web</module>
+        <module>happy-admin</module>
         <module>happy-framework</module>
         <module>happy-system</module>
         <module>happy-common</module>
