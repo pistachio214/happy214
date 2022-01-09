@@ -33,8 +33,8 @@
 |—— happy-common                    公共模块
 |—— happy-framework                 框架模块
 |—— happy-system                    系统模块
-|—— happy-web                       接口模块
-| |—— system                        后台系统接口模块
+|—— happy-admin                     后台接口模块
+| |—— system                        后台系统接口
 |—— .gitignore                      git忽略文件
 |—— pom.xml                         maven配置文件
 |—— README.md                       README
