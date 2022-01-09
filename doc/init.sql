@@ -38,7 +38,6 @@ VALUES
 	(38,24,'修改菜单',NULL,'sys:menu:update',NULL,2,NULL,2,'2021-01-17 21:56:12',NULL,1),
 	(39,24,'删除菜单',NULL,'sys:menu:delete',NULL,2,NULL,3,'2021-01-17 21:56:36',NULL,1);
 
-
 DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -56,7 +55,6 @@ INSERT INTO `sys_role` (`id`, `name`, `code`, `remark`, `created_at`, `updated_a
 VALUES
 	(1,'超级管理员','administer','系统默认最高权限，不可以编辑和任意修改','2021-01-16 13:29:03','2022-01-05 22:33:59',1),
 	(3,'普通用户','normal','只有基本查看功能','2021-01-04 10:09:14','2022-01-06 20:32:27',1);
-
 
 DROP TABLE IF EXISTS `sys_role_menu`;
 CREATE TABLE `sys_role_menu` (
@@ -93,7 +91,6 @@ VALUES
 	(35,3,5,'2022-01-08 15:54:37',NULL,1),
 	(36,3,6,'2022-01-08 15:54:37',NULL,1);
 
-
 DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user` (
   `id` bigint NOT NULL AUTO_INCREMENT,
@@ -109,7 +106,7 @@ CREATE TABLE `sys_user` (
   `status` int NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `UK_USERNAME` (`username`) USING BTREE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='系统管理员';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='系统用户表';
 INSERT INTO `sys_user` (`id`, `nickname`, `username`, `password`, `avatar`, `email`, `city`, `last_login`, `created_at`, `updated_at`, `status`)
 VALUES
 	(1,'超级管理员','admin','$2a$10$apWMyb4PYXtWxrssCqnt0eXVG06C9y1pZPJSpA6m70gi1MzOGDbz6',NULL,NULL,NULL,NULL,'2021-10-02 22:44:46',NULL,1),
@@ -133,3 +130,6 @@ VALUES
 	(23,1,3,'2022-01-06 22:28:14',NULL,0),
 	(26,3,3,'2022-01-06 22:28:21',NULL,0),
 	(28,6,1,'2022-01-07 15:48:49',NULL,1);
+
+
+ALTER TABLE `sys_user` ADD `type` INT(3) DEFAULT 1 COMMENT '用户类型: 1管理员 2普通用户 ' AFTER `password`;

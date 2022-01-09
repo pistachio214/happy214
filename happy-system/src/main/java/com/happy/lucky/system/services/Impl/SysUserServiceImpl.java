@@ -3,6 +3,7 @@ package com.happy.lucky.system.services.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.happy.lucky.common.lang.Const;
 import com.happy.lucky.common.utils.RedisUtil;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.domain.SysRole;
@@ -43,8 +44,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public SysUser getByUsername(String username) {
         LambdaQueryWrapper<SysUser> userLambdaQueryWrapper = new LambdaQueryWrapper<>();
-        userLambdaQueryWrapper.eq(SysUser::getUsername,username)
-                .eq(SysUser::getStatus,1);
+        userLambdaQueryWrapper.eq(SysUser::getUsername, username)
+                .eq(SysUser::getType, Const.USER_IS_ADMIN);
 
         return baseMapper.selectOne(userLambdaQueryWrapper);
     }

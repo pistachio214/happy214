@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: happy-admin-api
+    name: happy211-admin-api
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

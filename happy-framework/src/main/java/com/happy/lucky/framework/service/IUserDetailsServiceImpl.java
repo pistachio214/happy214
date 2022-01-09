@@ -4,7 +4,6 @@ import com.happy.lucky.framework.domain.AccountUser;
 import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.services.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
@@ -30,6 +29,9 @@ public class IUserDetailsServiceImpl implements UserDetailsService {
             throw new BadCredentialsException("用户名或密码不正确!");
         }
 
+        switch (sysUser.getStatus()) {
+
+        }
         if (sysUser.getStatus() != 1) {
             throw new BadCredentialsException("用户状态不可用!");
         }

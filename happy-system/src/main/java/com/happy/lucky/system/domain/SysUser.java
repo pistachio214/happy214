@@ -38,6 +38,9 @@ public class SysUser extends Model {
     @ApiModelProperty(hidden = true)
     private String password;
 
+    @ApiModelProperty(hidden = true)
+    private Integer type;
+
     @ApiModelProperty(value = "头像")
     private String avatar;
 
