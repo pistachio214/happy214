@@ -2,6 +2,7 @@ package com.happy.lucky.system.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -37,5 +38,7 @@ public class SysUserRole extends Model {
 
     private Integer status;
 
+    @TableLogic
+    private Integer isDelete;
 
 }

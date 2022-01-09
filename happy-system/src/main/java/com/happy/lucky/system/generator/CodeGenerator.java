@@ -42,6 +42,7 @@ public class CodeGenerator {
         gc.setAuthor("Roger Peng");
         gc.setOpen(false);
         gc.setFileOverride(true);
+        gc.setSwagger2(true);
         mpg.setGlobalConfig(gc);
 
         // 数据源配置

@@ -3,6 +3,7 @@ package com.happy.lucky.system.domain;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -84,6 +85,9 @@ public class SysMenu extends Model {
 
     @ApiModelProperty(value = "状态 1启用 0禁止")
     private Integer status;
+
+    @TableLogic
+    private Integer isDelete;
 
     @ApiModelProperty(value = "下级菜单列表")
     @TableField(exist = false)
