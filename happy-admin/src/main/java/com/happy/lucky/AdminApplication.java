@@ -6,9 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @MapperScan(basePackages = {"com.happy.lucky.system.mappers"})
 @SpringBootApplication
-public class WebApplication {
+public class AdminApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WebApplication.class, args);
+        SpringApplication.run(AdminApplication.class, args);
     }
 }
