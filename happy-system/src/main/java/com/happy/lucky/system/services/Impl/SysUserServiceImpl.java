@@ -8,7 +8,7 @@ import com.happy.lucky.common.utils.RedisUtil;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.domain.SysRole;
 import com.happy.lucky.system.domain.SysUser;
-import com.happy.lucky.system.mappers.SysUserMapper;
+import com.happy.lucky.system.mapper.SysUserMapper;
 import com.happy.lucky.system.services.ISysMenuService;
 import com.happy.lucky.system.services.ISysRoleService;
 import com.happy.lucky.system.services.ISysUserService;

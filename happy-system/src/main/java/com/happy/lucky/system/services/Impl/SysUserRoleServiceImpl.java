@@ -2,7 +2,7 @@ package com.happy.lucky.system.services.Impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.happy.lucky.system.domain.SysUserRole;
-import com.happy.lucky.system.mappers.SysUserRoleMapper;
+import com.happy.lucky.system.mapper.SysUserRoleMapper;
 import com.happy.lucky.system.services.ISysUserRoleService;
 import org.springframework.stereotype.Service;
 

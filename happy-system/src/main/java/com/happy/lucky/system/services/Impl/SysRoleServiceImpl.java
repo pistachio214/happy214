@@ -3,7 +3,7 @@ package com.happy.lucky.system.services.Impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.happy.lucky.system.domain.SysRole;
-import com.happy.lucky.system.mappers.SysRoleMapper;
+import com.happy.lucky.system.mapper.SysRoleMapper;
 import com.happy.lucky.system.services.ISysRoleService;
 import org.springframework.stereotype.Service;
 
