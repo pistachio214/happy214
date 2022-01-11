@@ -6,9 +6,11 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -34,16 +36,18 @@ public class SysRole extends Model {
     private String remark;
 
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private Date createdAt;
 
     @ApiModelProperty(value = "更新时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updatedAt;
+    private Date updatedAt;
 
     @ApiModelProperty(value = "状态")
     private Integer status;
 
     @TableLogic
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDelete;
 
     @ApiModelProperty(value = "菜单权限列表")

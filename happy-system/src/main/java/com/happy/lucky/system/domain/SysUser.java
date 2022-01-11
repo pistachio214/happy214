@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.happy.lucky.common.utils.BaseUtil;
@@ -14,6 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @ApiModel
 @Data
@@ -49,11 +51,12 @@ public class SysUser extends Model {
     private String city;
 
     @ApiModelProperty(value = "创建时间")
-    private LocalDateTime createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private Date createdAt;
 
     @ApiModelProperty(hidden = true)
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updatedAt;
+    private Date updatedAt;
 
     @ApiModelProperty(hidden = true)
     private LocalDateTime lastLogin;
@@ -62,6 +65,7 @@ public class SysUser extends Model {
     private Integer status;
 
     @TableLogic
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDelete;
 
     @ApiModelProperty(value = "角色信息")

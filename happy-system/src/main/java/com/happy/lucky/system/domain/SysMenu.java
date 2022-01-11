@@ -7,11 +7,13 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -76,15 +78,17 @@ public class SysMenu extends Model {
     @TableField("orderNum")
     private Integer orderNum;
 
-    private LocalDateTime createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private Date createdAt;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updatedAt;
+    private Date updatedAt;
 
     @ApiModelProperty(value = "状态 1启用 0禁止")
     private Integer status;
 
     @TableLogic
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDelete;
 
     @ApiModelProperty(value = "下级菜单列表")

@@ -48,9 +48,6 @@ import java.util.stream.Collectors;
 @RequestMapping("/sys-role")
 public class SysRoleController {
 
-    @Resource
-    private HttpServletRequest req;
-
     @Autowired
     private ISysRoleService sysRoleService;
 
@@ -128,7 +125,6 @@ public class SysRoleController {
             return R.error("唯一编码已存在!");
         }
 
-        sysRole.setCreatedAt(LocalDateTime.now());
         sysRoleService.save(sysRole);
 
         return R.success(sysRole);
@@ -139,7 +135,6 @@ public class SysRoleController {
     @PreAuthorize("hasAnyAuthority('sys:role:update')")
     public R<SysRole> update(@Validated @RequestBody RequestRoleUpdateDto dto) {
         SysRole sysRole = ConvertUtil.map(dto, SysRole.class);
-        sysRole.setUpdatedAt(LocalDateTime.now());
         sysRoleService.updateById(sysRole);
 
         // 更新缓存
@@ -162,7 +157,6 @@ public class SysRoleController {
             SysRoleMenu roleMenu = new SysRoleMenu();
             roleMenu.setMenuId(menuId);
             roleMenu.setRoleId(roleId);
-            roleMenu.setCreatedAt(LocalDateTime.now());
             roleMenu.setStatus(1);
 
             sysRoleMenus.add(roleMenu);

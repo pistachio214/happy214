@@ -95,7 +95,6 @@ public class SysUserController {
     @PreAuthorize("hasAuthority('sys:user:save')")
     public R<SysUser> save(@Validated @RequestBody RequestUserCreateDto dto) {
         SysUser sysUser = ConvertUtil.map(dto, SysUser.class);
-        sysUser.setCreatedAt(LocalDateTime.now());
 
         // 默认密码
         String password = passwordEncoder.encode(Const.DEFULT_PASSWORD);
@@ -118,7 +117,6 @@ public class SysUserController {
         SysUser sysUser = sysUserService.getById(userId);
 
         sysUser.setPassword(passwordEncoder.encode(Const.DEFULT_PASSWORD));
-        sysUser.setUpdatedAt(LocalDateTime.now());
 
         sysUserService.updateById(sysUser);
         return R.success(Const.DEFULT_PASSWORD);
@@ -139,7 +137,6 @@ public class SysUserController {
             SysUserRole sysUserRole = new SysUserRole();
             sysUserRole.setRoleId(r);
             sysUserRole.setUserId(userId);
-            sysUserRole.setCreatedAt(LocalDateTime.now());
             sysUserRole.setStatus(Const.STATUS_ON);
 
             userRoles.add(sysUserRole);

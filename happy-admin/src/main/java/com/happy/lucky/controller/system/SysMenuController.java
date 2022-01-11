@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,8 +94,6 @@ public class SysMenuController {
     @PostMapping(value = "/save")
     public R<SysMenu> add(@Validated @RequestBody RequestMenuSaveDto dto) {
         SysMenu menu = ConvertUtil.map(dto, SysMenu.class);
-
-        menu.setCreatedAt(LocalDateTime.now());
         sysMenuService.save(menu);
         return R.success(menu);
     }
@@ -134,7 +133,6 @@ public class SysMenuController {
     @PreAuthorize("hasAnyAuthority('sys:menu:update')")
     public R<SysMenu> update(@Validated @RequestBody RequestMenuUpdateDto dto) {
         SysMenu sysMenu = ConvertUtil.map(dto, SysMenu.class);
-        sysMenu.setUpdatedAt(LocalDateTime.now());
 
         sysMenuService.updateById(sysMenu);
 

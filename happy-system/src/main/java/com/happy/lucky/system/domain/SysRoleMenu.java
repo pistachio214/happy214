@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 /**
  * <p>
@@ -30,13 +32,15 @@ public class SysRoleMenu extends Model {
 
     private Long menuId;
 
-    private LocalDateTime createdAt;
+    @TableField(fill = FieldFill.INSERT)
+    private Date createdAt;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updatedAt;
+    private Date updatedAt;
 
     private Integer status;
 
     @TableLogic
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDelete;
 }

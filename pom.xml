@@ -19,7 +19,7 @@
 
     <properties>
         <druid.version>1.2.8</druid.version>
-        <mybatis-plus-boot-starter.version>3.4.2</mybatis-plus-boot-starter.version>
+        <mybatis-plus-boot-starter.version>3.4.1</mybatis-plus-boot-starter.version>
         <mybatis-plus-generator.version>3.4.1</mybatis-plus-generator.version>
         <freemarker.version>2.3.29</freemarker.version>
         <jjwt.version>0.9.1</jjwt.version>

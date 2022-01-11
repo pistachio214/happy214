@@ -183,4 +183,6 @@ ALTER TABLE `sys_role_menu`
     ADD `is_delete` INT(3) DEFAULT 1 COMMENT '删除标识';
 ALTER TABLE `sys_role`
     ADD `is_delete` INT(3) DEFAULT 1 COMMENT '删除标识';
+ALTER TABLE `sys_menu`
+    ADD `is_delete` INT(3) DEFAULT 1 COMMENT '删除标识';
 
