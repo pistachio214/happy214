@@ -41,6 +41,6 @@ public class SysRoleMenu extends Model {
     private Integer status;
 
     @TableLogic
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(exist = false, fill = FieldFill.INSERT)
     private Integer isDelete;
 }

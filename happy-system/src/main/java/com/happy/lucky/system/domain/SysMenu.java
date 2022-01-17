@@ -88,7 +88,7 @@ public class SysMenu extends Model {
     private Integer status;
 
     @TableLogic
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(exist = false, fill = FieldFill.INSERT)
     private Integer isDelete;
 
     @ApiModelProperty(value = "下级菜单列表")

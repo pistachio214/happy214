@@ -1,4 +1,4 @@
-package com.happy.lucky.system.services.Impl;
+package com.happy.lucky.system.services.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;

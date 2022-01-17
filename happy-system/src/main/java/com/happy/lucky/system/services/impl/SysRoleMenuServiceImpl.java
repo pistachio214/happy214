@@ -1,4 +1,4 @@
-package com.happy.lucky.system.services.Impl;
+package com.happy.lucky.system.services.impl;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.happy.lucky.system.domain.SysRoleMenu;

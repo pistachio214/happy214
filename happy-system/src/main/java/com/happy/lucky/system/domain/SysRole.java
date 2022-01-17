@@ -47,7 +47,7 @@ public class SysRole extends Model {
     private Integer status;
 
     @TableLogic
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(exist = false, fill = FieldFill.INSERT)
     private Integer isDelete;
 
     @ApiModelProperty(value = "菜单权限列表")

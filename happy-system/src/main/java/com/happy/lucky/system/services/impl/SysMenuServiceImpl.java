@@ -1,4 +1,4 @@
-package com.happy.lucky.system.services.Impl;
+package com.happy.lucky.system.services.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,7 +8,6 @@ import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.mapper.SysMenuMapper;
 import com.happy.lucky.system.mapper.SysUserMapper;
 import com.happy.lucky.system.services.ISysMenuService;
-import com.happy.lucky.system.services.ISysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -26,9 +25,6 @@ import java.util.List;
  */
 @Service
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
-
-    @Autowired
-    private ISysUserService sysUserService;
 
     @Autowired
     private SysUserMapper sysUserMapper;
