@@ -52,11 +52,11 @@ public class SysUser extends Model {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @ApiModelProperty(hidden = true)
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @ApiModelProperty(hidden = true)
     private LocalDateTime lastLogin;
@@ -65,7 +65,7 @@ public class SysUser extends Model {
     private Integer status;
 
     @TableLogic
-    @TableField(exist = false, fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDelete;
 
     @ApiModelProperty(value = "角色信息")
@@ -73,7 +73,7 @@ public class SysUser extends Model {
     private List<SysRole> sysRoles = new ArrayList<>();
 
     public String getAvatar() {
-        if (BaseUtil.isEmpty(avatar)){
+        if (BaseUtil.isEmpty(avatar)) {
             return null;
         }
         return MinioUtil.generatorUrl(avatar);

@@ -31,14 +31,14 @@ public class MybatisPlusConfig {
             @Override
             public void insertFill(MetaObject metaObject) {
                 // 起始版本 3.3.3(推荐)
-                this.strictInsertFill(metaObject, "createdAt", Date::new, Date.class);
-                this.strictInsertFill(metaObject, "updatedAt", Date::new, Date.class);
+                this.strictInsertFill(metaObject, "createdAt", LocalDateTime::now, LocalDateTime.class);
+                this.strictInsertFill(metaObject, "updatedAt", LocalDateTime::now, LocalDateTime.class);
                 this.strictInsertFill(metaObject, "isDelete", () -> 1, Integer.class);
             }
 
             @Override
             public void updateFill(MetaObject metaObject) {
-                this.strictUpdateFill(metaObject, "updatedAt", Date::new, Date.class);
+                this.strictUpdateFill(metaObject, "updatedAt", LocalDateTime::now, LocalDateTime.class);
             }
         };
     }

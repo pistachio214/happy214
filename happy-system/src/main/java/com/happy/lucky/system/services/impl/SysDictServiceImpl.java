@@ -7,6 +7,7 @@ import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.system.domain.SysDict;
 import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.dto.RequestDictCreateDto;
+import com.happy.lucky.system.dto.RequestDictEditDto;
 import com.happy.lucky.system.dto.RequestDictListDto;
 import com.happy.lucky.system.mapper.SysDictMapper;
 import com.happy.lucky.system.services.ISysDictService;
@@ -42,5 +43,21 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         }
 
         return sysDict;
+    }
+
+    @Override
+    public SysDict editDict(RequestDictEditDto dto) {
+        SysDict sysDict = ConvertUtil.map(dto, SysDict.class);
+
+        if (!this.updateById(sysDict)) {
+            throw new RuntimeException("更新数据字典失败");
+        }
+
+        return sysDict;
+    }
+
+    @Override
+    public int deleteDict(Long id) {
+        return baseMapper.deleteById(id);
     }
 }

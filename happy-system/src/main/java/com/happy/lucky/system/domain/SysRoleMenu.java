@@ -33,14 +33,14 @@ public class SysRoleMenu extends Model {
     private Long menuId;
 
     @TableField(fill = FieldFill.INSERT)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     private Integer status;
 
     @TableLogic
-    @TableField(exist = false, fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDelete;
 }

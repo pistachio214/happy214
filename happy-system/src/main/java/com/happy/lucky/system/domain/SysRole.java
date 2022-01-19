@@ -37,17 +37,17 @@ public class SysRole extends Model {
 
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
-    private Date createdAt;
+    private LocalDateTime createdAt;
 
     @ApiModelProperty(value = "更新时间")
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updatedAt;
+    private LocalDateTime updatedAt;
 
     @ApiModelProperty(value = "状态")
     private Integer status;
 
     @TableLogic
-    @TableField(exist = false, fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDelete;
 
     @ApiModelProperty(value = "菜单权限列表")

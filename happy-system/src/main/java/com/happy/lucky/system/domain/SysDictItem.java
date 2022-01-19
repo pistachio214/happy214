@@ -56,7 +56,7 @@ public class SysDictItem extends Model {
     private LocalDateTime updatedAt;
 
     @TableLogic
-    @TableField(exist = false, fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDelete;
 
 

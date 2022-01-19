@@ -7,6 +7,8 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -29,6 +31,7 @@ public class SysDict extends Model {
 
     private static final long serialVersionUID = 1L;
 
+    @JsonSerialize(using = ToStringSerializer.class)
     @ApiModelProperty(value = "编号")
     private Long id;
 
@@ -40,6 +43,7 @@ public class SysDict extends Model {
 
     private String remarks;
 
+    @TableField("`system`")
     private String system;
 
     @ApiModelProperty(value = "创建时间")
@@ -50,9 +54,8 @@ public class SysDict extends Model {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedAt;
 
-
     @TableLogic
-    @TableField(exist = false, fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDelete;
 
 }
