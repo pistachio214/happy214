@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author Roger Peng
- * @since 2022-01-14
+ * @since 2022-01-20
  */
 public interface SysDictItemMapper extends BaseMapper<SysDictItem> {
 

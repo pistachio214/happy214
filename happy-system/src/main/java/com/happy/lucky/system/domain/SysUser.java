@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.happy.lucky.common.utils.BaseUtil;
 import com.happy.lucky.common.utils.MinioUtil;
 import io.swagger.annotations.ApiModel;
@@ -50,10 +51,12 @@ public class SysUser extends Model {
     @ApiModelProperty(hidden = true)
     private String city;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(hidden = true)
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updatedAt;

@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.system.domain.SysDict;
-import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.dto.RequestDictCreateDto;
 import com.happy.lucky.system.dto.RequestDictEditDto;
 import com.happy.lucky.system.dto.RequestDictListDto;
