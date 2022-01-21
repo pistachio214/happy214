@@ -2,6 +2,7 @@ package com.happy.lucky.controller.system;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.happy.lucky.common.utils.R;
+import com.happy.lucky.common.vo.SysDictAndItemVo;
 import com.happy.lucky.system.dto.RequestDictCreateDto;
 import com.happy.lucky.system.dto.RequestDictEditDto;
 import com.happy.lucky.system.dto.RequestDictListDto;
@@ -14,6 +15,9 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author Pengsy
+ */
 @Api(tags = "系统数据字典模块")
 @RestController
 @RequestMapping("/sys-dict")
@@ -53,8 +57,13 @@ public class SysDictController {
     @ApiOperation(value = "删除数据字典", notes = "操作权限 sys:dict:delete")
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyAuthority('sys:dict:delete')")
-    public R delete(@PathVariable("id") Long id) {
+    public R<Integer> delete(@PathVariable("id") Long id) {
         return R.success(sysDictService.deleteDict(id));
     }
 
+    @ApiOperation(value = "获取字典数据和字典项数据")
+    @GetMapping("/findByKey/{key}")
+    public R<SysDictAndItemVo> findByKey(@PathVariable("key") String key) {
+        return R.success(sysDictService.findByKey(key));
+    }
 }

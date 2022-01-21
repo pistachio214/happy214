@@ -3,7 +3,10 @@ package com.happy.lucky.system.services.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.happy.lucky.common.utils.BaseUtil;
 import com.happy.lucky.common.utils.ConvertUtil;
+import com.happy.lucky.common.utils.StringUtil;
+import com.happy.lucky.common.vo.SysDictAndItemVo;
 import com.happy.lucky.system.domain.SysDict;
 import com.happy.lucky.system.dto.RequestDictCreateDto;
 import com.happy.lucky.system.dto.RequestDictEditDto;
@@ -28,7 +31,9 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     public IPage<SysDict> lists(RequestDictListDto dto) {
         LambdaQueryWrapper<SysDict> lambdaQueryWrapper = new LambdaQueryWrapper<>();
 
-        lambdaQueryWrapper.orderByDesc(SysDict::getId);
+        lambdaQueryWrapper.like(!BaseUtil.isEmpty(dto.getType()), SysDict::getType, dto.getType())
+                .eq(!BaseUtil.isEmpty(dto.getSystem()), SysDict::getSystem, dto.getSystem())
+                .orderByDesc(SysDict::getId);
 
         return this.page(new Page<>(dto.getCurrent(), dto.getSize()), lambdaQueryWrapper);
     }
@@ -58,5 +63,10 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public int deleteDict(Long id) {
         return baseMapper.deleteById(id);
+    }
+
+    @Override
+    public SysDictAndItemVo findByKey(String key) {
+        return baseMapper.findDictAndItem(key);
     }
 }

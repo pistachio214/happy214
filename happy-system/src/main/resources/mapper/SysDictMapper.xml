@@ -2,4 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.happy.lucky.system.mapper.SysDictMapper">
 
+    <!-- 通用查询映射结果(一对多) -->
+    <resultMap id="findDictAndItemMap" type="com.happy.lucky.common.vo.SysDictAndItemVo">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="description" property="name" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="VARCHAR"/>
+
+        <collection property="items" ofType="com.happy.lucky.common.vo.SysDictItemVo">
+            <result property="label" column="label" jdbcType="VARCHAR"/>
+            <result property="value" column="value" jdbcType="INTEGER"/>
+        </collection>
+    </resultMap>
+
+    <select id="findDictAndItem" parameterType="java.lang.String" resultMap="findDictAndItemMap">
+        SELECT
+          `sd`.`id`,
+          `sd`.`type`,
+          `sd`.`description`,
+          `sdi`.`label`,
+          `sdi`.`value`
+        FROM `sys_dict` `sd`
+          LEFT JOIN `sys_dict_item` `sdi` ON `sdi`.`dict_id` = `sd`.`id`
+        WHERE `sd`.`is_delete` = 1 AND `sdi`.`is_delete` = 1 AND `sd`.`type` = #{key};
+    </select>
+
 </mapper>
