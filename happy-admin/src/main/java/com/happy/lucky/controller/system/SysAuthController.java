@@ -53,4 +53,9 @@ public class SysAuthController {
 
         return R.success(MapUtil.builder().put("token", key).put("base64Img", base64Img).build());
     }
+
+    public R<Object> test() {
+        System.out.println("hello,world");
+        return R.success("hello,world");
+    }
 }

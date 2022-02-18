@@ -37,7 +37,6 @@ public class CommonController {
             minioService.uploadObject(is, newFileName, contentType);
 
             String url = minioService.getObjectUrl(newFileName);
-            System.out.println(url);
             return R.success(newFileName);
         } catch (Exception e) {
             e.printStackTrace();

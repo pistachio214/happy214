@@ -62,4 +62,4 @@ minio:
   bucketName: mlcloud
 
 logs:
-  path: D:\html\happy-lucky-admin\logs
+  path: .\logs
