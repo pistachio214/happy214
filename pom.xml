@@ -14,7 +14,7 @@
         <module>happy-common</module>
     </modules>
 
-    <name>happy211</name>
+    <name>happy214</name>
     <description>开心快乐的后台管理</description>
 
     <properties>

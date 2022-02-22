@@ -47,6 +47,14 @@ public class SysDict extends Model {
     @TableField("`system`")
     private String system;
 
+    @TableField(exist = false)
+    private String systemVal;
+
+    public String getSystemVal() {
+
+        return systemVal;
+    }
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @ApiModelProperty(value = "创建时间")
     @TableField(fill = FieldFill.INSERT)

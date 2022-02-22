@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.extension.activerecord.Model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -16,8 +15,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-import org.springframework.format.annotation.DateTimeFormat;
-
+s
 @ApiModel
 @Data
 @EqualsAndHashCode(callSuper = true)
