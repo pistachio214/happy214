@@ -146,7 +146,7 @@ public class SysUserController {
 
         // 删除缓存
         SysUser sysUser = sysUserService.getById(userId);
-        sysUserService.clearUserAuthorityInfo(sysUser.getUsername());
+        sysUserService.clearUserAuthorityInfo(sysUser.getId());
 
         sysUserService.clearUserRoleInfo(userId);
 

@@ -54,7 +54,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public String getUserAuthorityInfo(Long userId) {
         SysUser sysUser = baseMapper.selectById(userId);
         String authority = null;
-        String key = "GrantedAuthority:" + sysUser.getUsername();
+        String key = "GrantedAuthority:" + sysUser.getId();
 
         if (redisUtil.hasKey(key)) {
             // 优先从缓存获取
@@ -81,8 +81,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
-    public void clearUserAuthorityInfo(String username) {
-        String key = "GrantedAuthority:" + username;
+    public void clearUserAuthorityInfo(Long id) {
+        String key = "GrantedAuthority:" + id;
         if (redisUtil.hasKey(key)) {
             redisUtil.del(key);
         }
@@ -91,10 +91,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public void clearUserAuthorityInfoByRoleId(Long roleId) {
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
-        queryWrapper.inSql("id", "select user_id from sys_user_role where role_id = " + roleId);
+        queryWrapper.inSql("id", "select `user_id` from `sys_user_role` where `role_id` = " + roleId);
         List<SysUser> sysUsers = baseMapper.selectList(queryWrapper);
         sysUsers.forEach(u -> {
-            this.clearUserAuthorityInfo(u.getUsername());
+            this.clearUserAuthorityInfo(u.getId());
         });
     }
 
@@ -102,13 +102,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     public void clearUserAuthorityInfoByMenuId(Long menuId) {
         List<SysUser> sysUsers = sysUserMapper.listByMenuId(menuId);
         sysUsers.forEach(u -> {
-            this.clearUserAuthorityInfo(u.getUsername());
+            this.clearUserAuthorityInfo(u.getId());
         });
     }
 
     @Override
     public void clearUserRoleInfo(Long id) {
-        String roleCacheKey = "ROLE_CACHE_KEY_USER_ID_IS_" + id;
+        String roleCacheKey = "GrantedRole:" + id;
         if (redisUtil.hasKey(roleCacheKey)) {
             redisUtil.del(roleCacheKey);
         }

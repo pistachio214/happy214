@@ -36,7 +36,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
 
     @Override
     public List<String> getRoleList(Long id) {
-        String roleCacheKey = "ROLE_CACHE_KEY_USER_ID_IS_" + id;
+        String roleCacheKey = "GrantedRole:" + id;
         if (redisUtil.hasKey(roleCacheKey)) {
             String roleList = redisUtil.get(roleCacheKey).toString();
             return Arrays.asList(roleList.split(","));

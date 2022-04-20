@@ -9,7 +9,7 @@ public interface ISysUserService extends IService<SysUser> {
 
     String getUserAuthorityInfo(Long userId);
 
-    void clearUserAuthorityInfo(String username);
+    void clearUserAuthorityInfo(Long id);
 
     void clearUserAuthorityInfoByRoleId(Long roleId);
 
