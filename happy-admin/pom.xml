@@ -25,10 +25,10 @@
             <artifactId>mysql-connector-java</artifactId>
         </dependency>
 
-<!--        <dependency>-->
-<!--            <groupId>com.happy</groupId>-->
-<!--            <artifactId>happy-common</artifactId>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>com.happy</groupId>-->
+        <!--            <artifactId>happy-common</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>com.happy</groupId>

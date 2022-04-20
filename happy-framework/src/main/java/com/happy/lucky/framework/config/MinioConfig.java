@@ -23,7 +23,7 @@ public class MinioConfig {
     private String bucketName;
 
     @Bean
-    public MinioClient minioClient(){
+    public MinioClient minioClient() {
         return MinioClient.builder().endpoint(endpoint).credentials(accessKey, secretKey).build();
     }
 }

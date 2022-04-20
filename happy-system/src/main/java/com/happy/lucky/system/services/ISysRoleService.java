@@ -5,6 +5,6 @@ import com.happy.lucky.system.domain.SysRole;
 
 import java.util.List;
 
-public interface ISysRoleService  extends IService<SysRole> {
+public interface ISysRoleService extends IService<SysRole> {
     List<SysRole> listRolesByUserId(Long userId);
 }

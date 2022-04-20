@@ -13,8 +13,8 @@ public enum ResponseStatusEnum {
     UNANTHORIZED(401, "未授权"),
     FORBIDDEN(403, "访问受限,授权过期"),
     NOT_FOUND(404, "资源不存在"),
-    INSUFFICIENT_PERMISSIONS(405,"您的访问权限不足!"),
-    SERIALIZABLE(406,"参数格式不正确,请再次确认!"),
+    INSUFFICIENT_PERMISSIONS(405, "您的访问权限不足!"),
+    SERIALIZABLE(406, "参数格式不正确,请再次确认!"),
     NOT_LOGIN(1001, "未登录"),
     ;
 
