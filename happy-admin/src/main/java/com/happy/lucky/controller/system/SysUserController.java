@@ -148,6 +148,8 @@ public class SysUserController {
         SysUser sysUser = sysUserService.getById(userId);
         sysUserService.clearUserAuthorityInfo(sysUser.getUsername());
 
+        sysUserService.clearUserRoleInfo(userId);
+
         return R.success();
     }
 

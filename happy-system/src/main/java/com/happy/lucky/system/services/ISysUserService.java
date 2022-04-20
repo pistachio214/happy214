@@ -15,4 +15,6 @@ public interface ISysUserService extends IService<SysUser> {
 
     void clearUserAuthorityInfoByMenuId(Long menuId);
 
+    void clearUserRoleInfo(Long id);
+
 }

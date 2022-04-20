@@ -105,4 +105,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             this.clearUserAuthorityInfo(u.getUsername());
         });
     }
+
+    @Override
+    public void clearUserRoleInfo(Long id) {
+        String roleCacheKey = "ROLE_CACHE_KEY_USER_ID_IS_" + id;
+        if (redisUtil.hasKey(roleCacheKey)) {
+            redisUtil.del(roleCacheKey);
+        }
+    }
 }
