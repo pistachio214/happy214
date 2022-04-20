@@ -1,5 +1,6 @@
 package com.happy.lucky.controller.system;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -21,7 +22,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -58,7 +58,7 @@ public class SysRoleController {
 
     @ApiOperation(value = "角色列表", notes = "权限 sys:role:list")
     @GetMapping("/list")
-    @PreAuthorize("hasAuthority('sys:role:list')")
+    @SaCheckPermission("sys:role:list")
     public R<IPage<SysRole>> list(RequestRoleListDto dto) {
         LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.like(StrUtil.isNotBlank(dto.getName()), SysRole::getName, dto.getName());
@@ -74,7 +74,7 @@ public class SysRoleController {
             @ApiImplicitParam(name = "id", value = "角色id", required = true)
     })
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAnyAuthority('sys:role:list')")
+    @SaCheckPermission("sys:role:list")
     public R<SysRole> info(@PathVariable("id") Long id) {
         SysRole sysRole = sysRoleService.getById(id);
 
@@ -94,7 +94,7 @@ public class SysRoleController {
             @ApiImplicitParam(name = "id", value = "角色id", required = true)
     })
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAnyAuthority('sys:role:delete')")
+    @SaCheckPermission("sys:role:delete")
     public R delete(@PathVariable("id") Long id) {
         sysRoleService.removeById(id);
 
@@ -110,7 +110,7 @@ public class SysRoleController {
 
     @ApiOperation(value = "创建角色", notes = "权限 sys:role:save")
     @PostMapping("/save")
-    @PreAuthorize("hasAnyAuthority('sys:role:save')")
+    @SaCheckPermission("sys:role:save")
     public R<SysRole> save(@Validated @RequestBody RequestRoleCreateDto dto) {
         SysRole sysRole = ConvertUtil.map(dto, SysRole.class);
         LambdaQueryWrapper<SysRole> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -128,7 +128,7 @@ public class SysRoleController {
 
     @ApiOperation(value = "编辑角色", notes = "权限 sys:role:update")
     @PutMapping("/update")
-    @PreAuthorize("hasAnyAuthority('sys:role:update')")
+    @SaCheckPermission("sys:role:update")
     public R<SysRole> update(@Validated @RequestBody RequestRoleUpdateDto dto) {
         SysRole sysRole = ConvertUtil.map(dto, SysRole.class);
         sysRoleService.updateById(sysRole);
@@ -146,7 +146,7 @@ public class SysRoleController {
     })
     @Transactional
     @PostMapping("/perm/{roleId}")
-    @PreAuthorize("hasAuthority('sys:role:perm')")
+    @SaCheckPermission("sys:role:perm")
     public R perm(@PathVariable("roleId") Long roleId, @RequestBody Long[] menuIds) {
         List<SysRoleMenu> sysRoleMenus = new ArrayList<>();
         Arrays.stream(menuIds).forEach(menuId -> {

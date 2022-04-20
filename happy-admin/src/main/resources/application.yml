@@ -9,7 +9,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/happy214?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: slyours@123
+    password: 12345678
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -18,10 +18,10 @@ spring:
       write-dates-as-timestamps: false
 
   redis:
-    host: 192.168.0.211
-    port: 16379
+    host: 127.0.0.1
+    port: 6379
     database: 2
-    password: slyours@123
+    password: xiaofeng
 
   servlet:
     multipart:
@@ -42,18 +42,26 @@ mybatis-plus:
       # 删除后
       logic-delete-value: 0
 
-happy:
-  jwt:
-    # 加密秘钥
-    secret: f4e2e52034348f86b67cde581c0f9eb5
-    # token有效时长，7天，单位秒
-    expire: 604800
-    header: Authorization
-  security:
-    # 设置不需要验证的路径
-    matchers: "/webjars/**,/favicon.ico,/sys-auth/captcha,/login,/test,/doc.html**,/swagger-resources,/common/**,/v2/api-docs**"
-    admin-login: "/login"
-    admin-logout: "/logout"
+# Sa-Token配置
+sa-token:
+  # token名称 (同时也是cookie名称)
+  token-name: satoken
+  # token有效期，单位s 默认30天, -1代表永不过期
+  timeout: 2592000
+  # token临时有效期 (指定时间内无操作就视为token过期) 单位: 秒
+  activity-timeout: -1
+  # 是否允许同一账号并发登录 (为true时允许一起登录, 为false时新登录挤掉旧登录)
+  is-concurrent: true
+  # 在多人登录同一账号时，是否共用一个token (为true时所有登录共用一个token, 为false时每次登录新建一个token)
+  is-share: false
+  # token风格
+  token-style: uuid
+  # 是否输出操作日志
+  is-log: false
+  # 公钥
+  public-key: MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCrSX62Ngg3wjeO05zFvxCzTU9+NkpBbTVEn3pENW8/yyYTU+A9l8lNiBVEKT2/ub/ARNXEdiTqhS6/YEoNyCkGXmWQ3EX+uF3X9QBiWfmTkCbxYsF79omUHZu/G0fDeA/vsyK6YeHn4mzr3L4O/4xwZSeRXzyggy5PzXrL9PonvQIDAQAB
+  # 私钥
+  private-key: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAKtJfrY2CDfCN47TnMW/ELNNT342SkFtNUSfekQ1bz/LJhNT4D2XyU2IFUQpPb+5v8BE1cR2JOqFLr9gSg3IKQZeZZDcRf64Xdf1AGJZ+ZOQJvFiwXv2iZQdm78bR8N4D++zIrph4efibOvcvg7/jHBlJ5FfPKCDLk/Nesv0+ie9AgMBAAECgYBzvN50yn+1BXO6+3vUFm13akbLdm2oVd2Hd+cKzbxVM7SPnL5JgBWSYOBVxTQnJ6DMjvaOoHIDUWisAakoNNaajsDtZSwpCqBEIpdihnN47pbvt2vSTm/+7VqeCcGKDrn4meSFhyAOmSOwZizNJWDdTmCXWxXPq7gibMaE3NWwYQJBANudhG3jqrhFgUgv+LR7XA8uaDED215BsMPOAFq9+pB1UIZ11RgfQuwMTXpYY4x4u7huureyUHR85pw/a8NPjbUCQQDHqj8kO9k7A2O9rhiTHYEW+5Ylv3GyqGNhbPmGfl/JiW7XIhpdkv+9hQY5NNR56nRRt9cFQU5O96BHrJHftjbpAkBc1GpD4PYqygZpsw1XjMVPDXixL0Ysw2uqeIsh0Cf3o/8Ttv8KITyydkjRrEb3+5itzvBR8aecdacs6InultP5AkBHMvR1LUpXeuv0VcK5o0nHMkvmhhA7T0SxFzUburDZo0J9QNH6EFNV97uyZp5mIy77fP0WCKWuDyt+o5EZH1cRAkEAiYtE59vFg/I9IOcrtBIgX8bqIdF8dkpOotfdoy5ZynLDBuXK/o49nEREXQrZmhV8ZUyIsSL+A2Pa5Ugqa6btqw==
 
 minio:
   endpoint: http://123.57.48.127:9000

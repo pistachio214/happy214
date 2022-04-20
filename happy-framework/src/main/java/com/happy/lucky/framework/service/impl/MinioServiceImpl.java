@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author songyangpeng
+ */
 @Service
 public class MinioServiceImpl implements IMinioService {
 
@@ -76,14 +79,6 @@ public class MinioServiceImpl implements IMinioService {
     @Override
     public String getObjectUrl(String objectName) {
         try {
-//            GetPresignedObjectUrlArgs getPresignedObjectUrlArgs = GetPresignedObjectUrlArgs.builder()
-//                    .method(Method.GET)
-//                    .bucket(minioConfig.getBucketNameImage())
-//                    .object(objectName)
-//                    .expiry(7, TimeUnit.DAYS)
-//                    .build();
-//            return minioClient.getPresignedObjectUrl(getPresignedObjectUrlArgs);
-
             return minioClient.getObjectUrl(minioConfig.getBucketName(), objectName);
         } catch (Exception e) {
             e.printStackTrace();

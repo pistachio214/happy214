@@ -4,12 +4,10 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.happy.lucky.common.dto.SysMenuDto;
 import com.happy.lucky.system.domain.SysMenu;
-import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.mapper.SysMenuMapper;
 import com.happy.lucky.system.mapper.SysUserMapper;
 import com.happy.lucky.system.services.ISysMenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -30,10 +28,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     private SysUserMapper sysUserMapper;
 
     @Override
-    public List<SysMenuDto> getCurrentUserNav() {
-        SysUser sysUser = (SysUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public List<SysMenuDto> getCurrentUserNav(Long id) {
 
-        List<Long> menuIds = sysUserMapper.getNavMenu(sysUser.getId());
+        List<Long> menuIds = sysUserMapper.getNavMenu(id);
         List<SysMenu> menus = baseMapper.selectBatchIds(menuIds);
 
         // 转树状结构

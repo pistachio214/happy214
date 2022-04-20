@@ -1,5 +1,7 @@
 package com.happy.lucky.controller.system;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -11,9 +13,9 @@ import com.happy.lucky.common.utils.R;
 import com.happy.lucky.system.dto.RequestUserCreateDto;
 import com.happy.lucky.system.dto.RequestUserListDto;
 import com.happy.lucky.system.dto.RequestUserSaveAvatarDto;
-import com.happy.lucky.framework.utils.SecurityUtil;
 import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.domain.SysUserRole;
+import com.happy.lucky.framework.service.ISysAuthService;
 import com.happy.lucky.system.services.ISysRoleService;
 import com.happy.lucky.system.services.ISysUserRoleService;
 import com.happy.lucky.system.services.ISysUserService;
@@ -22,8 +24,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -55,11 +55,11 @@ public class SysUserController {
     private ISysUserRoleService sysUserRoleService;
 
     @Autowired
-    private BCryptPasswordEncoder passwordEncoder;
+    private ISysAuthService sysAuthService;
 
     @ApiOperation(value = "用户数据列表", notes = "操作权限 sys:user:list")
     @GetMapping("/list")
-    @PreAuthorize("hasAnyAuthority('sys:user:list')")
+    @SaCheckPermission("sys:user:list")
     public R<IPage<SysUser>> list(RequestUserListDto dto) {
 
         LambdaQueryWrapper<SysUser> lambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -81,7 +81,7 @@ public class SysUserController {
     })
     @Transactional
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAuthority('sys:user:delete')")
+    @SaCheckPermission("sys:user:delete")
     public R delete(@PathVariable("id") Long id) {
         sysUserService.removeById(id);
         sysUserRoleService.removeById(id);
@@ -91,12 +91,12 @@ public class SysUserController {
 
     @ApiOperation(value = "新增管理员", notes = "操作权限 sys:user:save")
     @PostMapping("/save")
-    @PreAuthorize("hasAuthority('sys:user:save')")
+    @SaCheckPermission("sys:user:save")
     public R<SysUser> save(@Validated @RequestBody RequestUserCreateDto dto) {
         SysUser sysUser = ConvertUtil.map(dto, SysUser.class);
 
         // 默认密码
-        String password = passwordEncoder.encode(Const.DEFULT_PASSWORD);
+        String password = sysAuthService.rsaEncryptByPublic(Const.DEFULT_PASSWORD);
         sysUser.setPassword(password);
 
         // 默认头像
@@ -111,11 +111,11 @@ public class SysUserController {
             @ApiImplicitParam(name = "userId", value = "管理员id", required = true)
     })
     @PostMapping("/repass")
-    @PreAuthorize("hasAuthority('sys:user:repass')")
-    public R repass(@RequestBody Long userId) {
+    @SaCheckPermission("sys:user:repass")
+    public R<String> repass(@RequestBody Long userId) {
         SysUser sysUser = sysUserService.getById(userId);
 
-        sysUser.setPassword(passwordEncoder.encode(Const.DEFULT_PASSWORD));
+        sysUser.setPassword(sysAuthService.rsaEncryptByPublic(Const.DEFULT_PASSWORD));
 
         sysUserService.updateById(sysUser);
         return R.success(Const.DEFULT_PASSWORD);
@@ -128,7 +128,7 @@ public class SysUserController {
     })
     @Transactional
     @PostMapping("/role/{userId}")
-    @PreAuthorize("hasAuthority('sys:user:role')")
+    @SaCheckPermission("sys:user:role")
     public R rolePerm(@PathVariable("userId") Long userId, @RequestBody Long[] roleIds) {
         List<SysUserRole> userRoles = new ArrayList<>();
 
@@ -153,11 +153,12 @@ public class SysUserController {
 
     @ApiOperation(value = "修改管理员头像", notes = "操作权限 sys:user:save:avatar")
     @PostMapping("/saveAvatar")
-    @PreAuthorize("hasAuthority('sys:user:save:avatar')")
+    @SaCheckPermission("sys:user:save:avatar")
     public R saveAvatar(@Validated @RequestBody RequestUserSaveAvatarDto dto) {
+        SysUser sysUser = (SysUser) StpUtil.getSession().get("user");
         LambdaUpdateWrapper<SysUser> lambdaUpdateWrapper = new LambdaUpdateWrapper<>();
         lambdaUpdateWrapper
-                .eq(SysUser::getId, SecurityUtil.getCurrentUser().getId())
+                .eq(SysUser::getId, sysUser.getId())
                 .set(SysUser::getAvatar, dto.getAvatar());
 
         if (!sysUserService.update(lambdaUpdateWrapper)) {

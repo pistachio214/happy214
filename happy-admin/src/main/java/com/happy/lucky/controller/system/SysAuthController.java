@@ -1,15 +1,20 @@
 package com.happy.lucky.controller.system;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.hutool.core.map.MapUtil;
 import com.google.code.kaptcha.Producer;
+import com.happy.lucky.common.dto.response.LoginSuccessDto;
 import com.happy.lucky.common.lang.Const;
 import com.happy.lucky.common.utils.R;
 import com.happy.lucky.common.utils.RedisUtil;
+import com.happy.lucky.system.dto.RequestAuthAdminLoginDto;
+import com.happy.lucky.framework.service.ISysAuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
@@ -20,6 +25,9 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * @author songyangpeng
+ */
 @Api(tags = "后台验证模块")
 @RestController
 @RequestMapping("/sys-auth")
@@ -32,6 +40,9 @@ public class SysAuthController {
 
     @Autowired
     private RedisUtil redisUtil;
+
+    @Autowired
+    private ISysAuthService sysAuthService;
 
     /**
      * 图片验证码
@@ -52,6 +63,19 @@ public class SysAuthController {
         logger.info("验证码 -- {} - {}", key, code);
 
         return R.success(MapUtil.builder().put("token", key).put("base64Img", base64Img).build());
+    }
+
+    @ApiOperation(value = "后台管理员登录系统", notes = "后台管理员进行管理系统登录")
+    @PostMapping("/admin/doLogin")
+    public R<LoginSuccessDto> doLogin(@Validated @RequestBody RequestAuthAdminLoginDto dto) {
+        return R.success(sysAuthService.doAdminLogin(dto));
+    }
+
+    @SaCheckLogin
+    @GetMapping("/admin/logout")
+    public R doLogout() {
+        sysAuthService.doAdminLogout();
+        return R.success();
     }
 
     public R<Object> test() {

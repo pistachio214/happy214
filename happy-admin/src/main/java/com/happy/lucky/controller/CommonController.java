@@ -15,6 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.InputStream;
 import java.util.UUID;
 
+/**
+ * @author songyangpeng
+ */
 @Api(tags = "公共接口")
 @RequestMapping("/common")
 @RestController
@@ -25,7 +28,7 @@ public class CommonController {
 
     @ApiOperation(value = "上传文件", notes = "上传文件至minio")
     @PostMapping("/upload")
-    public R update(@RequestParam(name = "file", required = false) MultipartFile file) {
+    public R<String> update(@RequestParam(name = "file", required = false) MultipartFile file) {
         try {
             //得到文件流
             InputStream is = file.getInputStream();

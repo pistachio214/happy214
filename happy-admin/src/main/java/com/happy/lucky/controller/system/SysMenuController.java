@@ -1,12 +1,14 @@
 package com.happy.lucky.controller.system;
 
+import cn.dev33.satoken.annotation.SaCheckLogin;
+import cn.dev33.satoken.annotation.SaCheckPermission;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.happy.lucky.common.dto.SysMenuDto;
 import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.common.utils.R;
 import com.happy.lucky.system.dto.RequestMenuSaveDto;
-import com.happy.lucky.framework.utils.SecurityUtil;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.domain.SysRoleMenu;
 import com.happy.lucky.system.domain.SysUser;
@@ -19,7 +21,6 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -55,16 +56,17 @@ public class SysMenuController {
      *
      * @return
      */
+    @SaCheckLogin
     @GetMapping("/nav")
     public R nav() {
-        SysUser sysUser = SecurityUtil.getCurrentUser();
+        SysUser sysUser = (SysUser) StpUtil.getSession().get("user");
         // 获取权限信息
         String authorityInfo = sysUserService.getUserAuthorityInfo(sysUser.getId());
         // ROLE_admin,ROLE_normal,sys:user:list,....
         String[] authorityInfoArray = StringUtils.tokenizeToStringArray(authorityInfo, ",");
 
         // 获取导航栏信息
-        List<SysMenuDto> navs = sysMenuService.getCurrentUserNav();
+        List<SysMenuDto> navs = sysMenuService.getCurrentUserNav(sysUser.getId());
 
         //获取用户的昵称和头像
         Map<String, String> user = new HashMap<>();
@@ -80,13 +82,13 @@ public class SysMenuController {
 
     @ApiOperation(value = "菜单列表", notes = "权限 sys:menu:list")
     @GetMapping("/list")
-    @PreAuthorize("hasAnyAuthority('sys:menu:list')")
+    @SaCheckPermission("sys:menu:list")
     public R<List<SysMenu>> list() {
         return R.success(sysMenuService.tree());
     }
 
     @ApiOperation(value = "创建菜单", notes = "权限 sys:menu:save")
-    @PreAuthorize("hasAnyAuthority('sys:menu:save')")
+    @SaCheckPermission("sys:menu:save")
     @PostMapping(value = "/save")
     public R<SysMenu> add(@Validated @RequestBody RequestMenuSaveDto dto) {
         SysMenu menu = ConvertUtil.map(dto, SysMenu.class);
@@ -99,7 +101,7 @@ public class SysMenuController {
             @ApiImplicitParam(value = "菜单id", name = "id", required = true)
     })
     @DeleteMapping("/delete/{id}")
-    @PreAuthorize("hasAuthority('sys:menu:delete')")
+    @SaCheckPermission("sys:menu:delete")
     public R delete(@PathVariable("id") Long id) {
         int count = sysMenuService.count(new LambdaQueryWrapper<SysMenu>().eq(SysMenu::getParentId, id));
         if (count > 0) {
@@ -119,14 +121,14 @@ public class SysMenuController {
             @ApiImplicitParam(value = "菜单id", name = "id", required = true)
     })
     @GetMapping("/info/{id}")
-    @PreAuthorize("hasAnyAuthority('sys:menu:list')")
+    @SaCheckPermission("sys:menu:list")
     public R<SysMenu> info(@PathVariable("id") Long id) {
         return R.success(sysMenuService.getById(id));
     }
 
     @ApiOperation(value = "更新菜单", notes = "权限 sys:menu:update")
     @PutMapping("/update")
-    @PreAuthorize("hasAnyAuthority('sys:menu:update')")
+    @SaCheckPermission("sys:menu:update")
     public R<SysMenu> update(@Validated @RequestBody RequestMenuUpdateDto dto) {
         SysMenu sysMenu = ConvertUtil.map(dto, SysMenu.class);
 
