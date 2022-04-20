@@ -1,6 +1,7 @@
 package com.happy.lucky.system.services;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.happy.lucky.common.vo.SysDictAndItemVo;
 import com.happy.lucky.system.domain.SysDict;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.happy.lucky.system.dto.RequestDictCreateDto;
@@ -24,4 +25,6 @@ public interface ISysDictService extends IService<SysDict> {
     SysDict editDict(RequestDictEditDto dto);
 
     int deleteDict(Long id);
+
+    SysDictAndItemVo findByKey(String key);
 }

@@ -9,7 +9,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/happy214?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
     username: root
-    password: 12345678
+    password: slyours@123
 
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
@@ -18,10 +18,10 @@ spring:
       write-dates-as-timestamps: false
 
   redis:
-    host: 127.0.0.1
-    port: 6379
+    host: 192.168.0.211
+    port: 16379
     database: 2
-    password: xiaofeng
+    password: slyours@123
 
   servlet:
     multipart:
