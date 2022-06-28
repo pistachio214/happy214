@@ -10,5 +10,6 @@ public class AdminApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(AdminApplication.class, args);
+        System.out.println("(♥◠‿◠)ﾉﾞ  后台服务启动成功   ლ(´ڡ`ლ)ﾞ");
     }
 }
