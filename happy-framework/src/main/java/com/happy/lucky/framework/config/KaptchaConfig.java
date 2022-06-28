@@ -22,6 +22,11 @@ public class KaptchaConfig {
         properties.put("kaptcha.image.width", "120");
         properties.put("kaptcha.textproducer.font.size", "30");
 
+        //如果需要生成算法验证码加上一下配置
+        properties.put("kaptcha.textproducer.char.string", "1234567890");
+        //如果需要去掉干扰线
+        properties.put("kaptcha.noise.impl", "com.google.code.kaptcha.impl.NoNoise");
+
         Config config = new Config(properties);
         DefaultKaptcha defaultKaptcha = new DefaultKaptcha();
         defaultKaptcha.setConfig(config);

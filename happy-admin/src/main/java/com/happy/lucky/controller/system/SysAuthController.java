@@ -50,9 +50,17 @@ public class SysAuthController {
     @ApiOperation(value = "获取图片验证码", notes = "图片验证码格式为base64位")
     @GetMapping("/captcha")
     public R<Map<Object, Object>> captcha() throws IOException {
-        String code = producer.createText();
+        String text = producer.createText();
+
+        //个位数字相加
+        String s1 = text.substring(0, 1);
+        String s2 = text.substring(1, 2);
+        int code = Integer.parseInt(s1) + Integer.parseInt(s2);
+
+        //生成图片验证码
+        BufferedImage image = producer.createImage(s1 + "+" + s2 + "=?");
+
         String key = UUID.randomUUID().toString();
-        BufferedImage image = producer.createImage(code);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         ImageIO.write(image, "jpg", outputStream);
         BASE64Encoder encoder = new BASE64Encoder();
