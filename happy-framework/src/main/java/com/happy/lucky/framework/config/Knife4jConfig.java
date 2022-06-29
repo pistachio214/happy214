@@ -14,11 +14,18 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
 
 import java.util.*;
 
+/**
+ * 接口文档配置
+ *
+ * @author songyangpeng
+ */
 @Configuration
 @EnableSwagger2WebMvc
 public class Knife4jConfig {
 
-    //配置content type
+    /**
+     * 配置content type
+     */
     private static final Set<String> DEFAULT_PRODUCES_AND_CONSUMES =
             new HashSet<>(Arrays.asList("application/json", "charset=UTF-8"));
 

@@ -15,6 +15,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
+/**
+ * 全局异常拦截实现
+ *
+ * @author songyangpeng
+ */
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 

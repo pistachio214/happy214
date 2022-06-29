@@ -30,7 +30,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenuDto> getCurrentUserNav(Long id) {
 
+        /**
+         * todo 重构下获取权限的方式,下级权限获取到之后，自动得到上级目录或者菜单的权限标识
+         *         以便于菜单管理员分配权限时候点击树状的联动关系
+         */
         List<Long> menuIds = sysUserMapper.getNavMenu(id);
+
         List<SysMenu> menus = baseMapper.selectBatchIds(menuIds);
 
         // 转树状结构

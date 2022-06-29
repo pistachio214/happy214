@@ -15,15 +15,16 @@
     </resultMap>
 
     <select id="findDictAndItem" parameterType="java.lang.String" resultMap="findDictAndItemMap">
-        SELECT
-          `sd`.`id`,
-          `sd`.`type`,
-          `sd`.`description`,
-          `sdi`.`label`,
-          `sdi`.`value`
+        SELECT `sd`.`id`,
+               `sd`.`type`,
+               `sd`.`description`,
+               `sdi`.`label`,
+               `sdi`.`value`
         FROM `sys_dict` `sd`
-          LEFT JOIN `sys_dict_item` `sdi` ON `sdi`.`dict_id` = `sd`.`id`
-        WHERE `sd`.`is_delete` = 1 AND `sdi`.`is_delete` = 1 AND `sd`.`type` = #{key};
+                 LEFT JOIN `sys_dict_item` `sdi` ON `sdi`.`dict_id` = `sd`.`id`
+        WHERE `sd`.`is_delete` = 1
+          AND `sdi`.`is_delete` = 1
+          AND `sd`.`type` = #{key};
     </select>
 
 </mapper>

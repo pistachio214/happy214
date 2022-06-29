@@ -11,6 +11,11 @@ import org.springframework.context.annotation.Configuration;
 import java.time.LocalDateTime;
 import java.util.Date;
 
+/**
+ * MyBatisPlus Config
+ *
+ * @author songyangpeng
+ */
 @Configuration
 public class MybatisPlusConfig {
 
