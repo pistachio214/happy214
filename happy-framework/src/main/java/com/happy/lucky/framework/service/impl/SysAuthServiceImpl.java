@@ -40,7 +40,7 @@ public class SysAuthServiceImpl implements ISysAuthService {
 
     @Override
     public LoginSuccessDto doAdminLogin(RequestAuthAdminLoginDto dto) {
-        if (!dto.getCode().equals(redisUtil.hget(Const.CAPTCHA_KEY, dto.getToken()))) {
+        if (!dto.getCode().equals(redisUtil.hget(Const.CAPTCHA_KEY, dto.getToken()).toString())) {
             throw new RuntimeException("验证码错误");
         }
 
