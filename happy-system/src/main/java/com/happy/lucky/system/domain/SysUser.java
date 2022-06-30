@@ -77,6 +77,10 @@ public class SysUser extends Model {
         if (BaseUtil.isEmpty(avatar)) {
             return null;
         }
+
+        if (avatar.contains("https://") || avatar.contains("http://")){
+            return avatar;
+        }
         return MinioUtil.generatorUrl(avatar);
     }
 }

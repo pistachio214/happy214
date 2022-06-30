@@ -13,8 +13,8 @@ public interface ISysAuthService {
     /**
      * 后台管理员登录验证
      *
-     * @param dto
-     * @return
+     * @param dto dto
+     * @return LoginSuccessDto
      */
     LoginSuccessDto doAdminLogin(RequestAuthAdminLoginDto dto);
 
@@ -26,8 +26,8 @@ public interface ISysAuthService {
     /**
      * 密码加密
      *
-     * @param text
-     * @return
+     * @param text string
+     * @return string
      */
     String rsaEncryptByPublic(String text);
 }

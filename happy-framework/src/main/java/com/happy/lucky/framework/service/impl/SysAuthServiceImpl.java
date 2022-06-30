@@ -82,6 +82,7 @@ public class SysAuthServiceImpl implements ISysAuthService {
 
     @Override
     public void doAdminLogout() {
+        StpUtil.getSession().delete("user");
         StpUtil.logout();
     }
 

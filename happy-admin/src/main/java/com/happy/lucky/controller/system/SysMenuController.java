@@ -54,7 +54,7 @@ public class SysMenuController {
     /**
      * 用户当前用户的菜单和权限信息
      *
-     * @return
+     * @return R
      */
     @SaCheckLogin
     @GetMapping("/nav")

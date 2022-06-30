@@ -1,8 +1,11 @@
 package com.happy.lucky.system.services.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.happy.lucky.common.dto.SysMenuDto;
+import com.happy.lucky.common.utils.RedisUtil;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.mapper.SysMenuMapper;
 import com.happy.lucky.system.mapper.SysUserMapper;
@@ -11,7 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.TreeSet;
+
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
 
 /**
  * <p>
@@ -27,16 +36,14 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Autowired
     private SysUserMapper sysUserMapper;
 
+    @Autowired
+    private ISysMenuService iSysMenuService;
+
     @Override
     public List<SysMenuDto> getCurrentUserNav(Long id) {
 
-        /**
-         * todo 重构下获取权限的方式,下级权限获取到之后，自动得到上级目录或者菜单的权限标识
-         *         以便于菜单管理员分配权限时候点击树状的联动关系
-         */
         List<Long> menuIds = sysUserMapper.getNavMenu(id);
-
-        List<SysMenu> menus = baseMapper.selectBatchIds(menuIds);
+        List<SysMenu> menus = generatorMenuList(menuIds);
 
         // 转树状结构
         List<SysMenu> menuTree = buildTreeMenu(menus);
@@ -55,6 +62,44 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         // 转成树状结构
         return buildTreeMenu(sysMenus);
+    }
+
+    /**
+     * 递归处理当前权限的上级
+     *
+     * @param ids 已知权限的id
+     * @return List<SysMenu>
+     */
+    private List<SysMenu> generatorMenuList(List<Long> ids) {
+        List<SysMenu> menus = new ArrayList<>();
+
+        ids.forEach(id -> {
+            menus.addAll(generatorMenu(id));
+        });
+
+        // 根据id去重
+        return menus.stream().collect(
+                collectingAndThen(
+                        toCollection(() -> new TreeSet<>(comparingLong(SysMenu::getId))), ArrayList::new)
+        );
+    }
+
+    private List<SysMenu> generatorMenu(Long id) {
+        List<SysMenu> menuArray = new ArrayList<>();
+
+        SysMenu sysMenu = iSysMenuService.getById(id);
+        if (sysMenu != null) {
+            if (sysMenu.getParentId() != 0) {
+                menuArray.addAll(generatorMenu(sysMenu.getParentId()));
+            }
+
+            Integer[] indexArray = new Integer[]{0, 1};
+            if (Arrays.asList(indexArray).contains(sysMenu.getType())) {
+                menuArray.add(sysMenu);
+            }
+        }
+
+        return menuArray;
     }
 
     private List<SysMenuDto> convert(List<SysMenu> menuTree) {

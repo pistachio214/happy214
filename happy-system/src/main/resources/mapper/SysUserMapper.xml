@@ -14,7 +14,7 @@
                  LEFT JOIN `sys_role_menu` `rm` ON `ur`.`role_id` = `rm`.`role_id`
                  left join `sys_menu` `sm` on `sm`.`id` = `rm`.`menu_id`
         where `ur`.`user_id` = #{userId}
-          and `sm`.`type` in (0, 1)
+--           and `sm`.`type` in (0, 1)
     </select>
 
     <select id="listByMenuId" resultType="com.happy.lucky.system.domain.SysUser">
