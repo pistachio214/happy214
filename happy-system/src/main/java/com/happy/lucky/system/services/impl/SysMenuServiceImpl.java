@@ -1,11 +1,8 @@
 package com.happy.lucky.system.services.impl;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.happy.lucky.common.dto.SysMenuDto;
-import com.happy.lucky.common.utils.RedisUtil;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.mapper.SysMenuMapper;
 import com.happy.lucky.system.mapper.SysUserMapper;
