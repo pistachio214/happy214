@@ -70,5 +70,7 @@ minio:
   secretKey: admin123456
   bucketName: mlcloud
 
-logs:
-  path: ./logs
+happy:
+  version: 0.0.1
+  logs:
+    path: ./logs

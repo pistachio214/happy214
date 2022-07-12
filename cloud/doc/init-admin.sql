@@ -345,3 +345,11 @@ VALUES (13, 2, 3, '2021-01-17 21:56:36', NULL, 1, 1),
        (23, 1, 3, '2022-01-06 22:28:14', NULL, 0, 1),
        (26, 3, 3, '2022-01-06 22:28:21', NULL, 0, 1),
        (28, 6, 1, '2022-01-07 15:48:49', NULL, 1, 1);
+
+DROP TABLE IF EXISTS `sys_logging`;
+
+CREATE TABLE `sys_logging`
+(
+    `id`         bigint   NOT NULL AUTO_INCREMENT,
+    ``
+)
