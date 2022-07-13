@@ -30,7 +30,6 @@ import logo from '@/assets/images/logo.svg';
 import { login } from '@/api/auth';
 import { getNav } from '@/api/menu';
 import { getCaptcha } from '@/api/auth';
-import { tokensToFunction } from "path-to-regexp";
 
 const Login: React.FC = () => {
 

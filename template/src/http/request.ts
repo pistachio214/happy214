@@ -11,7 +11,9 @@ const instance: AxiosInstance = axios.create({
     timeout: 5000
 });
 
-//请求拦截器
+/**
+ * 请求拦截器 
+ */
 instance.interceptors.request.use((config: AxiosRequestConfig) => {
     config.headers!['Content-Type'] = 'application/json;charset=UTF-8';
 
@@ -19,7 +21,7 @@ instance.interceptors.request.use((config: AxiosRequestConfig) => {
     if (sessionStorage.getItem('tokenValue') !== null) {
         const tokenName = sessionStorage.getItem('tokenName')!
         const tokenValue = sessionStorage.getItem('tokenValue')!
-        
+
         config.headers![tokenName] = tokenValue
     }
     return config;
@@ -27,7 +29,9 @@ instance.interceptors.request.use((config: AxiosRequestConfig) => {
     return Promise.reject(err);
 });
 
-//响应拦截器
+/**
+ * 响应拦截器 
+ */
 instance.interceptors.response.use((res: any) => {
     if (res.data.code !== 200) {
         switch (res.data.code) {
