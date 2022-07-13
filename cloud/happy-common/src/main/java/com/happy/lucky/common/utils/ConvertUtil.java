@@ -9,6 +9,9 @@ import ma.glasnost.orika.metadata.TypeFactory;
 import java.util.List;
 
 
+/**
+ * @author songyangpeng
+ */
 public class ConvertUtil {
 
     private static MapperFacade mapper;

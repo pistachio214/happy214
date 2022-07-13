@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * @author songyangpeng
  */
-@Service
+@Service(value = "IMinioService")
 public class MinioServiceImpl implements IMinioService {
 
     private final static Logger logger = LoggerFactory.getLogger(MinioServiceImpl.class);

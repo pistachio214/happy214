@@ -1,9 +1,12 @@
 package com.happy.lucky.framework.aspect;
 
+import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.happy.lucky.framework.annotation.OperLog;
+import com.happy.lucky.framework.utils.IpUtil;
 import com.happy.lucky.system.domain.SysExceptionLog;
 import com.happy.lucky.system.domain.SysOperLog;
+import com.happy.lucky.system.domain.SysUser;
 import com.happy.lucky.system.services.ISysExceptionLogService;
 import com.happy.lucky.system.services.ISysOperLogService;
 import org.aspectj.lang.JoinPoint;
@@ -18,8 +21,13 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.aspectj.lang.reflect.MethodSignature;
 
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,12 +70,11 @@ public class OperLogAspect {
      * @param keys      返回结果
      */
     @AfterReturning(value = "operLogPoinCut()", returning = "keys")
-    public void saveOperLog(JoinPoint joinPoint, Object keys) {
+    public void saveOperLog(JoinPoint joinPoint, Object keys) throws IOException {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         // 从获取RequestAttributes中获取HttpServletRequest的信息
-        HttpServletRequest request = (HttpServletRequest) requestAttributes
-                .resolveReference(RequestAttributes.REFERENCE_REQUEST);
+        HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
         SysOperLog sysOperLog = new SysOperLog();
         try {
@@ -97,21 +104,25 @@ public class OperLogAspect {
             // 请求方法
             sysOperLog.setOperMethod(methodName);
 
+            // 请求方式
+            sysOperLog.setOperRequMethod(request.getMethod());
+
             // 请求的参数
-            Map<String, String> rtnMap = converMap(request.getParameterMap());
-            // 将参数所在的数组转换成json
-            String params = JSON.toJSONString(rtnMap);
+            String params = getParamToString(request);
 
             // 请求参数
             sysOperLog.setOperRequParam(params);
             // 返回结果
             sysOperLog.setOperRespParam(JSON.toJSONString(keys));
+
+            SysUser sysUser = (SysUser) StpUtil.getSession().get("user");
+
             // 请求用户ID
-            sysOperLog.setOperUserId(UserShiroUtil.getCurrentUserLoginName());
+            sysOperLog.setOperUserId(sysUser.getId());
             // 请求用户名称
-            sysOperLog.setOperUserName(UserShiroUtil.getCurrentUserName());
+            sysOperLog.setOperUserName(sysUser.getUsername());
             // 请求IP
-            sysOperLog.setOperIp(IPUtil.getRemortIP(request));
+            sysOperLog.setOperIp(IpUtil.getIp(request));
             // 请求URI
             sysOperLog.setOperUri(request.getRequestURI());
             // 操作版本
@@ -129,12 +140,11 @@ public class OperLogAspect {
      * @param e         异常信息
      */
     @AfterThrowing(pointcut = "operExceptionLogPoinCut()", throwing = "e")
-    public void saveExceptionLog(JoinPoint joinPoint, Throwable e) {
+    public void saveExceptionLog(JoinPoint joinPoint, Throwable e) throws IOException {
         // 获取RequestAttributes
         RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         // 从获取RequestAttributes中获取HttpServletRequest的信息
-        HttpServletRequest request = (HttpServletRequest) requestAttributes
-                .resolveReference(RequestAttributes.REFERENCE_REQUEST);
+        HttpServletRequest request = (HttpServletRequest) requestAttributes.resolveReference(RequestAttributes.REFERENCE_REQUEST);
 
         SysExceptionLog sysExceptionLog = new SysExceptionLog();
         try {
@@ -148,26 +158,30 @@ public class OperLogAspect {
             // 获取请求的方法名
             String methodName = method.getName();
             methodName = className + "." + methodName;
+
             // 请求的参数
-            Map<String, String> rtnMap = converMap(request.getParameterMap());
-            // 将参数所在的数组转换成json
-            String params = JSON.toJSONString(rtnMap);
+            String params = getParamToString(request);
             // 请求参数
             sysExceptionLog.setExcRequParam(params);
+            // 请求方式
+            sysExceptionLog.setOperRequMethod(request.getMethod());
             // 请求方法名
             sysExceptionLog.setOperMethod(methodName);
             // 异常名称
             sysExceptionLog.setExcName(e.getClass().getName());
             // 异常信息
             sysExceptionLog.setExcMessage(stackTraceToString(e.getClass().getName(), e.getMessage(), e.getStackTrace()));
+
+            SysUser sysUser = (SysUser) StpUtil.getSession().get("user");
+
             // 操作员ID
-            sysExceptionLog.setOperUserId(UserShiroUtil.getCurrentUserLoginName());
+            sysExceptionLog.setOperUserId(sysUser.getId());
             // 操作员名称
-            sysExceptionLog.setOperUserName(UserShiroUtil.getCurrentUserName());
+            sysExceptionLog.setOperUserName(sysUser.getUsername());
             // 操作URI
             sysExceptionLog.setOperUri(request.getRequestURI());
             // 操作员IP
-            sysExceptionLog.setOperIp(IPUtil.getRemortIP(request));
+            sysExceptionLog.setOperIp(IpUtil.getIp(request));
             // 操作版本号
             sysExceptionLog.setOperVer(operVer);
 
@@ -179,6 +193,37 @@ public class OperLogAspect {
 
     }
 
+    public String getParamToString(HttpServletRequest request) throws IOException {
+        String params;
+        switch (request.getMethod()) {
+            case "GET":
+                Map<String, String> rtnMap = converMap(request.getParameterMap());
+                params = JSON.toJSONString(rtnMap);
+                break;
+            case "POST":
+            case "PUT":
+                params = getPostParams(request);
+                break;
+            default:
+                params = null;
+        }
+
+        return params;
+    }
+
+    private String getPostParams(HttpServletRequest request) throws IOException {
+        ServletInputStream inputStream = request.getInputStream();
+        InputStreamReader reader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+        BufferedReader bfReader = new BufferedReader(reader);
+        StringBuilder sb = new StringBuilder();
+        String line;
+        while ((line = bfReader.readLine()) != null) {
+            sb.append(line);
+        }
+
+        return sb.toString();
+    }
+
     /**
      * 转换request 请求参数
      *
@@ -187,6 +232,7 @@ public class OperLogAspect {
     public Map<String, String> converMap(Map<String, String[]> paramMap) {
         Map<String, String> rtnMap = new HashMap<String, String>();
         for (String key : paramMap.keySet()) {
+            System.out.println("key=" + key);
             rtnMap.put(key, paramMap.get(key)[0]);
         }
         return rtnMap;

@@ -1,4 +1,4 @@
-package com.happy.lucky.controller.system;
+package com.happy.lucky.admin.controller.system;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.dev33.satoken.annotation.SaCheckPermission;
@@ -6,8 +6,10 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.map.MapUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.happy.lucky.common.dto.SysMenuDto;
+import com.happy.lucky.common.lang.Const;
 import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.common.utils.R;
+import com.happy.lucky.framework.annotation.OperLog;
 import com.happy.lucky.system.dto.RequestMenuSaveDto;
 import com.happy.lucky.system.domain.SysMenu;
 import com.happy.lucky.system.domain.SysRoleMenu;
@@ -81,6 +83,7 @@ public class SysMenuController {
     }
 
     @ApiOperation(value = "菜单列表", notes = "权限 sys:menu:list")
+    @OperLog(operModul = "菜单模块 - 菜单列表", operType = Const.LIST, operDesc = "菜单列表")
     @GetMapping("/list")
     @SaCheckPermission("sys:menu:list")
     public R<List<SysMenu>> list() {
@@ -88,6 +91,7 @@ public class SysMenuController {
     }
 
     @ApiOperation(value = "创建菜单", notes = "权限 sys:menu:save")
+    @OperLog(operModul = "菜单模块 - 新增菜单", operType = Const.SAVE, operDesc = "新增菜单")
     @SaCheckPermission("sys:menu:save")
     @PostMapping(value = "/save")
     public R<SysMenu> add(@Validated @RequestBody RequestMenuSaveDto dto) {
@@ -97,6 +101,7 @@ public class SysMenuController {
     }
 
     @ApiOperation(value = "删除菜单", notes = "权限 sys:menu:delete")
+    @OperLog(operModul = "菜单模块 - 删除菜单", operType = Const.DELETE, operDesc = "删除菜单")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "菜单id", name = "id", required = true)
     })
@@ -117,6 +122,7 @@ public class SysMenuController {
     }
 
     @ApiOperation(value = "菜单详情", notes = "权限 sys:menu:list")
+    @OperLog(operModul = "菜单模块 - 菜单详情", operType = Const.INFO, operDesc = "菜单详情")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "菜单id", name = "id", required = true)
     })
@@ -127,6 +133,7 @@ public class SysMenuController {
     }
 
     @ApiOperation(value = "更新菜单", notes = "权限 sys:menu:update")
+    @OperLog(operModul = "菜单模块 - 更新菜单", operType = Const.EDIT, operDesc = "更新菜单")
     @PutMapping("/update")
     @SaCheckPermission("sys:menu:update")
     public R<SysMenu> update(@Validated @RequestBody RequestMenuUpdateDto dto) {

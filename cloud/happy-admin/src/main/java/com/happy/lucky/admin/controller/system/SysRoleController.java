@@ -1,12 +1,14 @@
-package com.happy.lucky.controller.system;
+package com.happy.lucky.admin.controller.system;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.happy.lucky.common.lang.Const;
 import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.common.utils.R;
+import com.happy.lucky.framework.annotation.OperLog;
 import com.happy.lucky.system.domain.SysRole;
 import com.happy.lucky.system.domain.SysRoleMenu;
 import com.happy.lucky.system.domain.SysUserRole;
@@ -57,6 +59,7 @@ public class SysRoleController {
     private ISysRoleMenuService sysRoleMenuService;
 
     @ApiOperation(value = "角色列表", notes = "权限 sys:role:list")
+    @OperLog(operModul = "角色模块 - 角色列表", operType = Const.LIST, operDesc = "角色列表")
     @GetMapping("/list")
     @SaCheckPermission("sys:role:list")
     public R<IPage<SysRole>> list(RequestRoleListDto dto) {
@@ -70,6 +73,7 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "角色详情", notes = "权限 sys:role:list")
+    @OperLog(operModul = "角色模块 - 角色详情", operType = Const.INFO, operDesc = "角色详情")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色id", required = true)
     })
@@ -90,6 +94,7 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "删除角色", notes = "权限 sys:role:delete")
+    @OperLog(operModul = "角色模块 - 删除角色", operType = Const.DELETE, operDesc = "删除角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色id", required = true)
     })
@@ -109,6 +114,7 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "创建角色", notes = "权限 sys:role:save")
+    @OperLog(operModul = "角色模块 - 新增角色", operType = Const.SAVE, operDesc = "新增角色")
     @PostMapping("/save")
     @SaCheckPermission("sys:role:save")
     public R<SysRole> save(@Validated @RequestBody RequestRoleCreateDto dto) {
@@ -127,6 +133,7 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "编辑角色", notes = "权限 sys:role:update")
+    @OperLog(operModul = "角色模块 - 更新角色", operType = Const.EDIT, operDesc = "更新角色")
     @PutMapping("/update")
     @SaCheckPermission("sys:role:update")
     public R<SysRole> update(@Validated @RequestBody RequestRoleUpdateDto dto) {
@@ -140,6 +147,7 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "设置角色菜单权限", notes = "权限 sys:role:perm")
+    @OperLog(operModul = "角色模块 - 角色设置菜单", operType = Const.EDIT, operDesc = "角色设置菜单")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "roleId", value = "角色id", required = true, dataType = "path"),
             @ApiImplicitParam(name = "menuIds", value = "菜单权限集合", required = true, dataType = "body")

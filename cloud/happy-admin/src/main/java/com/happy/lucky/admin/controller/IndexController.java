@@ -1,4 +1,4 @@
-package com.happy.lucky.controller;
+package com.happy.lucky.admin.controller;
 
 import com.happy.lucky.common.utils.R;
 import org.springframework.web.bind.annotation.GetMapping;

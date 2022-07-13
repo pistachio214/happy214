@@ -4,6 +4,10 @@ import com.happy.lucky.common.utils.BaseUtil;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+/**
+ * @author songyangpeng
+ */
+
 @Getter
 @AllArgsConstructor
 public enum ResponseStatusEnum {
@@ -23,7 +27,12 @@ public enum ResponseStatusEnum {
 
     private final String message;
 
-    //根据code获取message
+    /**
+     * 根据code获取message
+     *
+     * @param code
+     * @return
+     */
     public static ResponseStatusEnum getEnumByCode(Integer code) {
         if (!BaseUtil.isEmpty(code)) {
             for (ResponseStatusEnum statusEnum : ResponseStatusEnum.values()) {

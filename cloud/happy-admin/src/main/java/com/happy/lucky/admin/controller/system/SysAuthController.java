@@ -1,4 +1,4 @@
-package com.happy.lucky.controller.system;
+package com.happy.lucky.admin.controller.system;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
 import cn.hutool.core.map.MapUtil;
@@ -7,6 +7,7 @@ import com.happy.lucky.common.dto.response.LoginSuccessDto;
 import com.happy.lucky.common.lang.Const;
 import com.happy.lucky.common.utils.R;
 import com.happy.lucky.common.utils.RedisUtil;
+import com.happy.lucky.framework.annotation.OperLog;
 import com.happy.lucky.system.dto.RequestAuthAdminLoginDto;
 import com.happy.lucky.framework.service.ISysAuthService;
 import io.swagger.annotations.Api;
@@ -73,12 +74,15 @@ public class SysAuthController {
         return R.success(MapUtil.builder().put("token", key).put("base64Img", base64Img).build());
     }
 
+    @OperLog(operModul = "验证模块 - 管理员后台登录", operType = Const.ADMIN_LOGIN, operDesc = "管理员登录系统")
     @ApiOperation(value = "后台管理员登录系统", notes = "后台管理员进行管理系统登录")
     @PostMapping("/admin/doLogin")
     public R<LoginSuccessDto> doLogin(@Validated @RequestBody RequestAuthAdminLoginDto dto) {
         return R.success(sysAuthService.doAdminLogin(dto));
     }
 
+    @OperLog(operModul = "验证模块 - 管理员后台退出", operType = Const.ADMIN_LOGOUT, operDesc = "管理员推出系统")
+    @ApiOperation(value = "后台管理员推出系统", notes = "后台管理员进行管理系统推出")
     @SaCheckLogin
     @GetMapping("/admin/logout")
     public R doLogout() {

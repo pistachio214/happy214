@@ -1,8 +1,9 @@
-package com.happy.lucky;
+package com.happy.lucky.admin;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.ServletComponentScan;
 
 /**
  * 后台管理系统 Api 启动引导
@@ -10,7 +11,13 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author songyangpeng
  */
 @MapperScan(basePackages = {"com.happy.lucky.system.mapper"})
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages = {
+        "com.happy.lucky.admin.*",
+        "com.happy.lucky.common.*",
+        "com.happy.lucky.framework.*",
+        "com.happy.lucky.system.*",
+})
+@ServletComponentScan(basePackages = {"com.happy.lucky.framework.filter.*"})
 public class AdminApplication {
 
     public static void main(String[] args) {

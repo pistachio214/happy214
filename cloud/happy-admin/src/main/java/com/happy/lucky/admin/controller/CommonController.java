@@ -1,6 +1,8 @@
-package com.happy.lucky.controller;
+package com.happy.lucky.admin.controller;
 
+import com.happy.lucky.common.lang.Const;
 import com.happy.lucky.common.utils.R;
+import com.happy.lucky.framework.annotation.OperLog;
 import com.happy.lucky.framework.service.IMinioService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -27,6 +29,7 @@ public class CommonController {
     private IMinioService minioService;
 
     @ApiOperation(value = "上传文件", notes = "上传文件至minio")
+    @OperLog(operModul = "公共模块 - 上传文件", operType = Const.UPLOAD, operDesc = "上传文件")
     @PostMapping("/upload")
     public R<String> update(@RequestParam(name = "file", required = false) MultipartFile file) {
         try {

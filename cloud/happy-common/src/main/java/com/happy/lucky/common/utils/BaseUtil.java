@@ -1,5 +1,8 @@
 package com.happy.lucky.common.utils;
 
+/**
+ * @author songyangpeng
+ */
 public class BaseUtil {
 
     /**

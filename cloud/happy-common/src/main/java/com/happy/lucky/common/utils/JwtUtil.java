@@ -9,6 +9,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Date;
 
+/**
+ * @author songyangpeng
+ */
 @Data
 @Component
 @ConfigurationProperties(prefix = "happy.jwt")
@@ -18,7 +21,12 @@ public class JwtUtil {
     private String secret;
     private String header;
 
-    // 生成jwt
+    /**
+     * 生成jwt
+     *
+     * @param username String
+     * @return String
+     */
     public String generateToken(String username) {
 
         Date nowDate = new Date();
@@ -28,12 +36,17 @@ public class JwtUtil {
                 .setHeaderParam("typ", "JWT")
                 .setSubject(username)
                 .setIssuedAt(nowDate)
-                .setExpiration(expireDate)// 7天過期
+                .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS512, secret)
                 .compact();
     }
 
-    // 解析jwt
+    /**
+     * 解析jwt
+     *
+     * @param jwt jwt
+     * @return Claims
+     */
     public Claims getClaimByToken(String jwt) {
         try {
             return Jwts.parser()
@@ -45,7 +58,12 @@ public class JwtUtil {
         }
     }
 
-    // jwt是否过期
+    /**
+     * jwt是否过期
+     *
+     * @param claims Claims
+     * @return boolean
+     */
     public boolean isTokenExpired(Claims claims) {
         return claims.getExpiration().before(new Date());
     }

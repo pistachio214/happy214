@@ -1,4 +1,4 @@
-package com.happy.lucky.controller.system;
+package com.happy.lucky.admin.controller.system;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import cn.dev33.satoken.stp.StpUtil;
@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.happy.lucky.common.lang.Const;
 import com.happy.lucky.common.utils.ConvertUtil;
 import com.happy.lucky.common.utils.R;
+import com.happy.lucky.framework.annotation.OperLog;
 import com.happy.lucky.system.dto.RequestUserCreateDto;
 import com.happy.lucky.system.dto.RequestUserListDto;
 import com.happy.lucky.system.dto.RequestUserSaveAvatarDto;
@@ -57,7 +58,8 @@ public class SysUserController {
     @Autowired
     private ISysAuthService sysAuthService;
 
-    @ApiOperation(value = "用户数据列表", notes = "操作权限 sys:user:list")
+    @ApiOperation(value = "管理员数据列表", notes = "操作权限 sys:user:list")
+    @OperLog(operModul = "管理员模块 - 管理员列表", operType = Const.LIST, operDesc = "管理员列表")
     @GetMapping("/list")
     @SaCheckPermission("sys:user:list")
     public R<IPage<SysUser>> list(RequestUserListDto dto) {
@@ -76,6 +78,7 @@ public class SysUserController {
     }
 
     @ApiOperation(value = "删除管理员", notes = "操作权限 sys:user:delete")
+    @OperLog(operModul = "管理员模块 - 删除管理员", operType = Const.DELETE, operDesc = "删除管理员")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "管理员id", required = true)
     })
@@ -90,6 +93,7 @@ public class SysUserController {
     }
 
     @ApiOperation(value = "新增管理员", notes = "操作权限 sys:user:save")
+    @OperLog(operModul = "管理员模块 - 新增管理员", operType = Const.SAVE, operDesc = "新增管理员")
     @PostMapping("/save")
     @SaCheckPermission("sys:user:save")
     public R<SysUser> save(@Validated @RequestBody RequestUserCreateDto dto) {
@@ -107,6 +111,7 @@ public class SysUserController {
     }
 
     @ApiOperation(value = "重置管理员密码", notes = "操作权限 sys:user:repass")
+    @OperLog(operModul = "管理员模块 - 重置管理员密码", operType = Const.EDIT, operDesc = "重置管理员密码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "管理员id", required = true)
     })
@@ -122,6 +127,7 @@ public class SysUserController {
     }
 
     @ApiOperation(value = "管理员设置角色", notes = "操作权限 sys:user:role")
+    @OperLog(operModul = "管理员模块 - 管理员设置角色", operType = Const.EDIT, operDesc = "管理员设置角色")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "userId", value = "管理员id", required = true, dataType = "Long", paramType = "path"),
             @ApiImplicitParam(name = "roleIds", value = "角色id集合", required = true, dataType = "Long[]", paramType = "body")
@@ -154,6 +160,7 @@ public class SysUserController {
     }
 
     @ApiOperation(value = "修改管理员头像", notes = "操作权限 sys:user:save:avatar")
+    @OperLog(operModul = "管理员模块 - 修改管理员头像", operType = Const.EDIT, operDesc = "修改管理员头像")
     @PostMapping("/saveAvatar")
     @SaCheckPermission("sys:user:save:avatar")
     public R saveAvatar(@Validated @RequestBody RequestUserSaveAvatarDto dto) {
@@ -167,11 +174,6 @@ public class SysUserController {
             return R.error("修改头像失败");
         }
 
-        return R.success();
-    }
-
-    //TODO 修改密码
-    public R changePassword() {
         return R.success();
     }
 
