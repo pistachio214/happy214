@@ -346,10 +346,46 @@ VALUES (13, 2, 3, '2021-01-17 21:56:36', NULL, 1, 1),
        (26, 3, 3, '2022-01-06 22:28:21', NULL, 0, 1),
        (28, 6, 1, '2022-01-07 15:48:49', NULL, 1, 1);
 
-DROP TABLE IF EXISTS `sys_logging`;
+DROP TABLE IF EXISTS `sys_oper_log`;
 
-CREATE TABLE `sys_logging`
+CREATE TABLE `sys_oper_log`
 (
-    `id`         bigint   NOT NULL AUTO_INCREMENT,
-    ``
-)
+    `id`               bigint   NOT NULL AUTO_INCREMENT,
+    `oper_modul`       varchar(64)                                            DEFAULT NULL COMMENT '功能模块',
+    `oper_type`        varchar(64)                                            DEFAULT NULL COMMENT '操作类型',
+    `oper_desc`        varchar(64)                                            DEFAULT NULL COMMENT '操作描述',
+    `oper_requ_method` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '请求方式',
+    `oper_requ_param`  text COMMENT '请求参数',
+    `oper_resp_param`  text COMMENT '返回参数',
+    `oper_user_id`     bigint                                                 DEFAULT NULL COMMENT '操作者',
+    `oper_user_name`   varchar(64)                                            DEFAULT NULL COMMENT '操作员名称',
+    `oper_method`      varchar(255)                                           DEFAULT NULL COMMENT '操作方法',
+    `oper_uri`         varchar(255)                                           DEFAULT NULL COMMENT '请求URL',
+    `oper_ip`          varchar(64)                                            DEFAULT NULL COMMENT '请求IP',
+    `oper_ver`         varchar(64)                                            DEFAULT NULL COMMENT '操作版号',
+    `created_at`       datetime NOT NULL,
+    `updated_at`       datetime                                               DEFAULT NULL,
+    `is_delete`        int                                                    DEFAULT '1' COMMENT '删除标识',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='日志记录表';
+
+DROP TABLE IF EXISTS `sys_exception_log`;
+
+CREATE TABLE `sys_exception_log`
+(
+    `id`               bigint   NOT NULL AUTO_INCREMENT,
+    `oper_requ_method` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL COMMENT '请求方式',
+    `exc_requ_param`   text COMMENT '请求参数',
+    `exc_name`         varchar(255)                                           DEFAULT NULL COMMENT '异常名称',
+    `exc_message`      text COMMENT '异常信息',
+    `oper_user_id`     bigint                                                 DEFAULT NULL COMMENT '操作者',
+    `oper_user_name`   varchar(64)                                            DEFAULT NULL COMMENT '操作员名称',
+    `oper_method`      varchar(255)                                           DEFAULT NULL COMMENT '操作方法',
+    `oper_uri`         varchar(255)                                           DEFAULT NULL COMMENT '请求URL',
+    `oper_ip`          varchar(64)                                            DEFAULT NULL COMMENT '请求IP',
+    `oper_ver`         varchar(64)                                            DEFAULT NULL COMMENT '操作版号',
+    `created_at`       datetime NOT NULL,
+    `updated_at`       datetime                                               DEFAULT NULL,
+    `is_delete`        int                                                    DEFAULT '1' COMMENT '删除标识',
+    PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COMMENT='异常日志表';
