@@ -16,7 +16,6 @@ const HappyOperLogDetails: React.FC<SysOperLogoDetailsProps> = (props: SysOperLo
 
         if (isVisible) {
             findOperLog(id).then(res => {
-                console.log('res=', res)
                 setSysOperLog(res.data);
             })
         }

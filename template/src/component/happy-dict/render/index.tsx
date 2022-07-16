@@ -14,7 +14,6 @@ const HappyDictRender: React.FC<IProps> = (props: IProps) => {
 
     useEffect(() => {
         getDictByKey(props.type).then((res) => {
-            console.log(res);
             res.data.items.forEach((item: { label: string, value: string | number }, index: number) => {
                 if (Number(props.defaultValue) === Number(item.value)) {
                     setTitle(item.label);

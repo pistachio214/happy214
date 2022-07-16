@@ -51,10 +51,6 @@ const HappyExceptionLogDetails: React.FC<SysExceptionLogoDetailsProps> = (props:
                         {sysOperLog?.createdAt}
                     </Descriptions.Item>
 
-                    <Descriptions.Item label="错误信息" span={3}>
-                        {sysOperLog?.excMessage}
-                    </Descriptions.Item>
-
                     <Descriptions.Item label="操作方法" span={3}>
                         {sysOperLog?.operMethod}
                     </Descriptions.Item>
@@ -77,6 +73,12 @@ const HappyExceptionLogDetails: React.FC<SysExceptionLogoDetailsProps> = (props:
                         }
 
                     </Descriptions.Item>
+
+                    <Descriptions.Item label="错误信息" span={3}>
+                        {sysOperLog?.excMessage}
+                    </Descriptions.Item>
+
+                    
 
                 </Descriptions>
             </Modal>

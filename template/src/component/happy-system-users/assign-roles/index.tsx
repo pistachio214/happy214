@@ -5,8 +5,7 @@ import { AssignRolesDto } from "@/types/Users";
 import { getRoleAll } from "@/api/roles";
 import { permRole } from "@/api/users";
 import { RoleInfo } from "@/types/Roles";
-
-const { Option } = Select
+import { OptionsInterface } from "@/types/Common";
 
 interface IProps {
     isVisible: boolean
@@ -18,8 +17,7 @@ const AssignRolesModal: React.FC<IProps> = (props: IProps) => {
 
     const [form] = Form.useForm();
     const [keys, setKeys] = useState<string[]>([]);
-    const [updateState, setUpdateState] = useState<number>(0);
-    const [children, setChildren] = useState<React.ReactNode[]>([]);
+    const [selectOption, setSelectOption] = useState<OptionsInterface[]>([]);
 
     useEffect(() => {
         initChildren();
@@ -29,10 +27,6 @@ const AssignRolesModal: React.FC<IProps> = (props: IProps) => {
         initAssignRoles()
     }, [props.isVisible]);  // eslint-disable-line react-hooks/exhaustive-deps
 
-    useEffect(() => {
-        console.log(keys)
-    }, [updateState]); // eslint-disable-line react-hooks/exhaustive-deps
-
     const initAssignRoles = () => {
         const { assignRoles, isVisible } = props;
         let key: string[] = [];
@@ -40,23 +34,19 @@ const AssignRolesModal: React.FC<IProps> = (props: IProps) => {
             assignRoles?.sysRoles.forEach((item: RoleInfo) => {
                 key.push(item.id.toString());
             })
-        }
 
-        console.log('key=', key)
-        setKeys(key)
-        setUpdateState(1)
-        console.log('keys=', keys)
-        console.log('assignRoles=', assignRoles)
+            setKeys(key)
+        }
     }
 
     const initChildren = async () => {
         await getRoleAll({ size: 9999, status: 1 }).then(res => {
-            let childrenOption: React.ReactNode[] = [];
+            let option: OptionsInterface[] = [];
             res.data.records.forEach((item: RoleInfo, index: number) => {
-                childrenOption.push(<Option key={item.id.toString()}>{item.name}</Option>)
+                option.push({ label: item.name, value: item.id.toString() })
             })
 
-            setChildren(childrenOption);
+            setSelectOption(option);
         })
     }
 
@@ -71,7 +61,11 @@ const AssignRolesModal: React.FC<IProps> = (props: IProps) => {
     }
 
     const handleChange = (value: string[]) => {
-        console.log(`selected ${value}`);
+        console.log(value)
+        value.forEach((item: string) => {
+            console.log(`selected ${item}`);
+        })
+
     }
 
     return (
@@ -91,17 +85,15 @@ const AssignRolesModal: React.FC<IProps> = (props: IProps) => {
                     autoComplete="off"
                 >
 
-                    <Form.Item>
+                    <Form.Item label={'用户角色'}>
                         <Select
                             mode="multiple"
                             allowClear
-                            style={{ width: '100%' }}
                             placeholder="Please select"
-                            defaultValue={keys}
+                            value={keys}
                             onChange={handleChange}
-                        >
-                            {children}
-                        </Select>
+                            options={selectOption}
+                        />
                     </Form.Item>
                 </Form>
             </Modal>
