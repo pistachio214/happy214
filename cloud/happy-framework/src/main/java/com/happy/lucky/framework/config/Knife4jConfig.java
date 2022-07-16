@@ -53,14 +53,14 @@ public class Knife4jConfig {
                 .groupName("管理系统")
                 .select()
                 //这里指定Controller扫描包路径
-                .apis(RequestHandlerSelectors.basePackage("com.happy.lucky.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.happy.lucky.admin.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfoBuilder() {
         Contact contact = new Contact("Songyang Peng",
-                "https://github.com/RogerPeng123", "aileshang0226@163.com");
+                "https://github.com/RogerPeng123", "songyang410@outlook.com");
 
         return new ApiInfoBuilder()
                 .title("开心后台管理系统API文档")

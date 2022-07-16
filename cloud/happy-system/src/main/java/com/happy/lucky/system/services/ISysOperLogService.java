@@ -3,7 +3,7 @@ package com.happy.lucky.system.services;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.happy.lucky.system.domain.SysOperLog;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.happy.lucky.system.dto.RequestOperListDto;
+import com.happy.lucky.system.dto.RequestOperLogListDto;
 
 /**
  * <p>
@@ -15,5 +15,5 @@ import com.happy.lucky.system.dto.RequestOperListDto;
  */
 public interface ISysOperLogService extends IService<SysOperLog> {
 
-    IPage<SysOperLog> lists(RequestOperListDto dto);
+    IPage<SysOperLog> lists(RequestOperLogListDto dto);
 }

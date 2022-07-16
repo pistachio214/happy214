@@ -2,7 +2,8 @@
 import ReactDOM from 'react-dom/client';
 
 import { ConfigProvider } from 'antd';
-import zhCn from 'antd/es/locale/zh_CN';
+import zhCN from 'antd/es/locale/zh_CN';
+import 'moment/locale/zh-cn';
 
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -15,7 +16,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <ConfigProvider locale={zhCn}>
+  <ConfigProvider locale={zhCN}>
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <HappyRouter />

@@ -20,6 +20,7 @@ import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 
 import stateSlice from "@/redux/slice/slice";
 import userSlice from "@/redux/slice/user";
+import settingSlice from "@/redux/slice/setting";
 
 const persistConfig: PersistConfig<ReducersMapObject> = {
     key: 'root',
@@ -29,7 +30,8 @@ const persistConfig: PersistConfig<ReducersMapObject> = {
 
 const rootReducer: Reducer<CombinedState<any>, any> = combineReducers({
     state: stateSlice,
-    user: userSlice
+    user: userSlice,
+    setting: settingSlice
 });
 
 const persistedReducer: Reducer<any & PersistPartial, any> = persistReducer(persistConfig, rootReducer)

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.happy.lucky.common.utils.BaseUtil;
 import com.happy.lucky.system.domain.SysOperLog;
-import com.happy.lucky.system.dto.RequestOperListDto;
+import com.happy.lucky.system.dto.RequestOperLogListDto;
 import com.happy.lucky.system.mapper.SysOperLogMapper;
 import com.happy.lucky.system.services.ISysOperLogService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 public class SysOperLogServiceImpl extends ServiceImpl<SysOperLogMapper, SysOperLog> implements ISysOperLogService {
 
     @Override
-    public IPage<SysOperLog> lists(RequestOperListDto dto) {
+    public IPage<SysOperLog> lists(RequestOperLogListDto dto) {
         LambdaQueryWrapper<SysOperLog> lambdaQueryWrapper = new LambdaQueryWrapper<>();
 
         lambdaQueryWrapper.like(

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 
 import { useNavigate } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
@@ -40,6 +40,8 @@ const HappyLayout: React.FC = () => {
     const navigate = useNavigate();
     const dispath = useAppDispatch();
 
+    const containerHeightRef = useRef(null);;
+
     const user: UserState = useAppSelector((state: any) => ({ ...state.user }), shallowEqual);
 
     const [collapsedStyle, setCollapsedStyle] = useState<string>();
@@ -75,8 +77,8 @@ const HappyLayout: React.FC = () => {
             },
             {
                 type: 'divider',
-              },
-              {
+            },
+            {
                 key: 'logout',
                 disabled: true,
                 label: (
@@ -88,7 +90,7 @@ const HappyLayout: React.FC = () => {
                         退出系统
                     </Button>
                 )
-              }
+            }
         ]}
         />
     );
@@ -162,13 +164,13 @@ const HappyLayout: React.FC = () => {
                         </div>
 
                     </Header>
-                    <Content style={{ margin: '24px 16px 0' }}>
-                        <div className="site-layout-background" style={{ padding: 24, minHeight: '100%' }}>
+                    <Content style={{ margin: '12px 8px 0', height: '100%', display: 'flex' }} ref={containerHeightRef}>
+                        <div className="site-layout-background" style={{ padding: 12, minHeight: '100%', flex: 1 }} >
                             <Outlet />
                         </div>
                     </Content>
 
-                    <Footer style={{ textAlign: 'center' }}>{defaultSettings.footerDescription}</Footer>
+                    <Footer style={{ textAlign: 'center', height: '48px', padding: '0', lineHeight: '48px' }}>{defaultSettings.footerDescription}</Footer>
                 </Layout>
             </Layout>
 

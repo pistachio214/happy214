@@ -1,9 +1,12 @@
 import styled from "styled-components";
 
 export const HappyTableContainer = styled.div`
+max-height: 100%;
+overflow: auto;
 
     .action-container{
         padding-bottom: 5px;
+        padding-right: 5px;
         display: flex;
         justify-content: space-between;
 

@@ -1,7 +1,9 @@
 package com.happy.lucky.system.services;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.happy.lucky.system.domain.SysExceptionLog;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.happy.lucky.system.dto.RequestExceptionLogListDto;
 
 /**
  * <p>
@@ -13,4 +15,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface ISysExceptionLogService extends IService<SysExceptionLog> {
 
+    IPage<SysExceptionLog> lists(RequestExceptionLogListDto dto);
 }

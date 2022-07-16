@@ -7,18 +7,11 @@ import Role from "@/pages/system/role";
 import Menu from "@/pages/system/menu";
 import Users from "@/pages/system/users";
 
+import OperLog from '@/pages/system/operLog';
+import ExceptionLog from '@/pages/system/exceptionLog';
+
 const Login = lazy(() => import('@/pages/login'));
 const NotFound = lazy(() => import('@/pages/notfound'));
-
-// const Dashboard = lazy(() => import('@/pages/dashboard'));
-
-// const Role = lazy(() => import('@/pages/system/role'));
-// const Menu = lazy(() => import('@/pages/system/menu'));
-// const Users = lazy(() => import('@/pages/system/users'));
-
-// const Dicts = lazy(() => import('@/pages/utils/dicts'));
-
-
 
 const router: IRouter[] = [
     {
@@ -60,27 +53,33 @@ const router: IRouter[] = [
         children: [
             {
                 path: '/system/roles',
-                title: '角色设置',
+                title: '角色管理',
                 auth: true,
                 component: <Role />
             },
             {
                 path: '/system/menus',
-                title: '菜单设置',
+                title: '菜单管理',
                 auth: true,
                 component: <Menu />
             },
             {
                 path: '/system/users',
-                title: '人员设置',
+                title: '人员管理',
                 auth: true,
                 component: <Users />
             },
             {
-                path: '/system/dicts',
-                title: '数据字典',
+                path: '/system/oper',
+                title: '操作日志',
                 auth: true,
-                component: <Dicts />,
+                component: <OperLog />,
+            },
+            {
+                path: '/system/exception',
+                title: '异常日志',
+                auth: true,
+                component: <ExceptionLog />,
             }
         ]
     },

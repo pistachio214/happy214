@@ -32,7 +32,7 @@ const HappyTable: React.FC<HappyTableProps> = (props: HappyTableProps) => {
                 pageSize: res.data.size,
                 defaultCurrent: 1,
                 current: res.data.current,
-                total: res.data.pages,
+                total: res.data.total,
                 onChange: (page: number) => {
                     props.quickJump(page);
                 }
@@ -98,6 +98,12 @@ const HappyTable: React.FC<HappyTableProps> = (props: HappyTableProps) => {
                 size={'small'}
                 pagination={{
                     ...pagination
+                }}
+                scroll={{
+                    scrollToFirstRowOnChange: true
+                }}
+                style={{
+                    paddingRight: '5px'
                 }}
             />
         </HappyTableContainer>

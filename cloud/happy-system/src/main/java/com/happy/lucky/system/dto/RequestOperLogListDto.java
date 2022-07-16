@@ -10,7 +10,7 @@ import lombok.Data;
  */
 @Data
 @ApiModel(value = "日志列表")
-public class RequestOperListDto extends RequestPageDto {
+public class RequestOperLogListDto extends RequestPageDto {
 
     @ApiModelProperty(value = "操作员名称")
     private String operUserName;
