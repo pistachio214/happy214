@@ -2,26 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.happy.lucky.system.mapper.SysUserMapper">
     <select id="getNavMenuIds" resultType="java.lang.Long">
-        select DISTINCT `rm`.`menu_id`
-        from `sys_user_role` `ur`
-                 LEFT JOIN `sys_role_menu` `rm` ON `ur`.`role_id` = `rm`.`role_id`
-        where `ur`.`user_id` = #{userId}
+        SELECT
+            DISTINCT `rm`.`menu_id`
+        FROM `sys_user_role` `ur`
+            LEFT JOIN `sys_role_menu` `rm` ON `ur`.`role_id` = `rm`.`role_id`
+        WHERE `ur`.`user_id` = #{userId}  AND `ur`.`is_delete` = 1 AND `rm`.`is_delete` = 1
     </select>
 
     <select id="getNavMenu" resultType="java.lang.Long">
-        select DISTINCT `rm`.`menu_id`
-        from `sys_user_role` `ur`
-                 LEFT JOIN `sys_role_menu` `rm` ON `ur`.`role_id` = `rm`.`role_id`
-                 left join `sys_menu` `sm` on `sm`.`id` = `rm`.`menu_id`
-        where `ur`.`user_id` = #{userId}
+        SELECT
+            DISTINCT `rm`.`menu_id`
+        FROM `sys_user_role` `ur`
+            LEFT JOIN `sys_role_menu` `rm` ON `ur`.`role_id` = `rm`.`role_id`
+            LEFT JOIN `sys_menu` `sm` on `sm`.`id` = `rm`.`menu_id`
+        WHERE `ur`.`user_id` = #{userId} AND `ur`.`is_delete` = 1 AND `rm`.`is_delete` = 1 AND `sm`.`is_delete` = 1
 --           and `sm`.`type` in (0, 1)
     </select>
 
     <select id="listByMenuId" resultType="com.happy.lucky.system.domain.SysUser">
-        SELECT DISTINCT `su`.*
+        SELECT
+            DISTINCT `su`.*
         FROM `sys_user_role` `ur`
-                 LEFT JOIN `sys_role_menu` `rm` ON `ur`.`role_id` = `rm`.`role_id`
-                 RIGHT JOIN `sys_user` `su` ON `ur`.`user_id` = `su`.`id`
-        WHERE `rm`.`menu_id` = #{menuId}
+            LEFT JOIN `sys_role_menu` `rm` ON `ur`.`role_id` = `rm`.`role_id`
+            RIGHT JOIN `sys_user` `su` ON `ur`.`user_id` = `su`.`id`
+        WHERE `rm`.`menu_id` = #{menuId} AND `ur`.`is_delete` = 1 AND `rm`.`is_delete` = 1 AND `su`.`is_delete` = 1
     </select>
 </mapper>

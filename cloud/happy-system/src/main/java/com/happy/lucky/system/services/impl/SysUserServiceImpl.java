@@ -56,10 +56,10 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String authority = null;
         String key = "GrantedAuthority:" + sysUser.getId();
 
-        if (redisUtil.hasKey(key)) {
-            // 优先从缓存获取
-            authority = (String) redisUtil.get(key);
-        } else {
+//        if (redisUtil.hasKey(key)) {
+//            // 优先从缓存获取
+//            authority = (String) redisUtil.get(key);
+//        } else {
             QueryWrapper<SysRole> roleQueryWrapper = new QueryWrapper<>();
             roleQueryWrapper.inSql("id", "select `role_id` from `sys_user_role` where `user_id` = " + userId);
             List<SysRole> roles = sysRoleService.list(roleQueryWrapper);
@@ -76,7 +76,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             }
             redisUtil.set(key, authority, 60 * 60);
 
-        }
+//        }
         return authority;
     }
 

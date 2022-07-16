@@ -32,7 +32,7 @@ public class ClearingLoginTask {
     /**
      * 每周五的晚上 23:59 执行
      */
-    @Scheduled(cron = "59 23 * * * 05 ?")
+    @Scheduled(cron = "59 23 * * * 05")
     private void configureTasks() {
         System.err.println("开始执行删除日志操作: " + LocalDateTime.now());
 

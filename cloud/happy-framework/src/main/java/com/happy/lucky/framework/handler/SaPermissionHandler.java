@@ -26,6 +26,7 @@ public class SaPermissionHandler implements StpInterface {
     @Override
     public List<String> getPermissionList(Object o, String s) {
         String authority = sysUserService.getUserAuthorityInfo(Long.valueOf(o.toString()));
+        System.out.println("我的全部权限:" + authority);
         return Arrays.asList(authority.split(","));
     }
 
