@@ -83,7 +83,6 @@ public class SysMenuController {
     }
 
     @ApiOperation(value = "菜单列表", notes = "权限 sys:menu:list")
-    @OperLog(operModul = "菜单模块 - 菜单列表", operType = Const.LIST, operDesc = "菜单列表")
     @GetMapping("/list")
     @SaCheckPermission("sys:menu:list")
     public R<List<SysMenu>> list() {
@@ -122,7 +121,6 @@ public class SysMenuController {
     }
 
     @ApiOperation(value = "菜单详情", notes = "权限 sys:menu:list")
-    @OperLog(operModul = "菜单模块 - 菜单详情", operType = Const.INFO, operDesc = "菜单详情")
     @ApiImplicitParams({
             @ApiImplicitParam(value = "菜单id", name = "id", required = true)
     })

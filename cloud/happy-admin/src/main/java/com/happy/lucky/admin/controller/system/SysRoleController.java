@@ -59,7 +59,6 @@ public class SysRoleController {
     private ISysRoleMenuService sysRoleMenuService;
 
     @ApiOperation(value = "角色列表", notes = "权限 sys:role:list")
-    @OperLog(operModul = "角色模块 - 角色列表", operType = Const.LIST, operDesc = "角色列表")
     @GetMapping("/list")
     @SaCheckPermission("sys:role:list")
     public R<IPage<SysRole>> list(RequestRoleListDto dto) {
@@ -73,7 +72,6 @@ public class SysRoleController {
     }
 
     @ApiOperation(value = "角色详情", notes = "权限 sys:role:list")
-    @OperLog(operModul = "角色模块 - 角色详情", operType = Const.INFO, operDesc = "角色详情")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "id", value = "角色id", required = true)
     })

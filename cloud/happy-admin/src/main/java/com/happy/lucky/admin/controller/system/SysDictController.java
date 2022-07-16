@@ -29,7 +29,6 @@ public class SysDictController {
     private ISysDictService sysDictService;
 
     @ApiOperation(value = "数据字典列表", notes = "操作权限 sys:dict:list")
-    @OperLog(operModul = "字典模块 - 字典列表", operType = Const.LIST, operDesc = "字典的全部列表")
     @GetMapping("/list")
     @SaCheckPermission("sys:dict:list")
     public R<IPage<SysDict>> list(RequestDictListDto dto) {
@@ -37,7 +36,6 @@ public class SysDictController {
     }
 
     @ApiOperation(value = "数据字典详情", notes = "操作权限 sys:dict:list")
-    @OperLog(operModul = "字典模块 - 字典详情", operType = Const.INFO, operDesc = "字典的详情")
     @GetMapping("/{id}")
     @SaCheckPermission("sys:dict:list")
     public R<SysDict> info(@PathVariable("id") Long id) {
@@ -69,7 +67,6 @@ public class SysDictController {
     }
 
     @ApiOperation(value = "获取字典数据和字典项数据")
-    @OperLog(operModul = "字典模块 - 字典数据和字典项数据", operType = Const.LIST, operDesc = "字典数据和字典项数据")
     @GetMapping("/findByKey/{key}")
     public R<SysDictAndItemVo> findByKey(@PathVariable("key") String key) {
         return R.success(sysDictService.findByKey(key));

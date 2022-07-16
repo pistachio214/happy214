@@ -27,7 +27,6 @@ public class SysDictItemController {
     private ISysDictItemService sysDictItemService;
 
     @ApiOperation(value = "数据字典项列表", notes = "操作权限 sys:dict:item:list")
-    @OperLog(operModul = "字典项模块 - 字典项列表", operType = Const.ITEM_LIST, operDesc = "字典项列表")
     @GetMapping("/list/{id}")
     @SaCheckPermission("sys:dict:item:list")
     public R<IPage<SysDictItem>> list(@PathVariable("id") Long id) {
@@ -35,7 +34,6 @@ public class SysDictItemController {
     }
 
     @ApiOperation(value = "数据字典项详情", notes = "操作权限 sys:dict:item:list")
-    @OperLog(operModul = "字典项模块 - 字典项详情", operType = Const.INFO, operDesc = "字典项详情")
     @GetMapping("/{id}")
     @SaCheckPermission("sys:dict:item:list")
     public R<SysDictItem> info(@PathVariable("id") Long id) {

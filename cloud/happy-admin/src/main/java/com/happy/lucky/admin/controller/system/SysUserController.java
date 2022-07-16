@@ -59,7 +59,6 @@ public class SysUserController {
     private ISysAuthService sysAuthService;
 
     @ApiOperation(value = "管理员数据列表", notes = "操作权限 sys:user:list")
-    @OperLog(operModul = "管理员模块 - 管理员列表", operType = Const.LIST, operDesc = "管理员列表")
     @GetMapping("/list")
     @SaCheckPermission("sys:user:list")
     public R<IPage<SysUser>> list(RequestUserListDto dto) {
