@@ -1,75 +1,89 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Tooltip, DatePicker } from 'antd';
 import { ColumnsType } from "antd/lib/table";
-import { DeleteOutlined } from "@ant-design/icons";
 
-import { SysDict } from "@/types/SysDicts";
 import { IOperator } from "@/types/IOperator";
 import HappyOperator from "@/component/happy-operator";
 import HappyTable from "@/component/happy-table";
-import { getDictList, delDict, getDictByKey } from '@/api/dicts';
-import SaveDictsModal from "@/component/happy-utils/dicts/save";
-import DictItem from "@/component/happy-utils/dicts/item";
-import HappyDictForm from "@/component/happy-dict/form";
-import { OptionsInterface, QuestionType } from "@/types/Common";
-import DictUtil from "@/utils/DictUtil";
+import { QuestionType } from "@/types/Common";
+import { getExceptionLoginList } from '@/api/logs';
+import { SysExceptionLog } from "@/types/SysLog";
 
-interface DIctsQuestionType extends QuestionType {
-    type?: string
-    system?: number
+import * as moment from "moment";
+import HappyExceptionLogDetails from "@/component/happy-log/exception";
+
+interface OperLogQuestionType extends QuestionType {
+    operUserName?: string
+    startAt?: string
+    endAt?: string
 }
 
-const Dicts: React.FC = () => {
+const { RangePicker } = DatePicker;
+
+const OperLog: React.FC = () => {
 
     const [form] = Form.useForm();
 
-    const [params, setParams] = useState<DIctsQuestionType>();
+    const [params, setParams] = useState<OperLogQuestionType>();
 
-    const [isSaveVisible, setIsSaveVisible] = useState<boolean>(false);
     const [id, setId] = useState<number>(0);
-    const [edit, setEdit] = useState<boolean>(false);
+    const [showVisible, setShowVisible] = useState<boolean>(false);
 
-    const [isDictItemVisible, setIsDictItemVisible] = useState<boolean>(false);
-    const [dictName, setDictName] = useState<string>();
-    const [type, setType] = useState<string>('');
+    const tableWidthHiddenStyle: React.HTMLAttributes<SysExceptionLog> | React.TdHTMLAttributes<SysExceptionLog> = {
+        style: {
+            maxWidth: 200,
+            overflow: 'hidden',
+            whiteSpace: 'nowrap',
+            textOverflow: 'ellipsis',
+            cursor: 'pointer'
+        }
+    }
 
-    const [isRefresh, setIsRefresh] = useState<boolean>(false);
-    const [dictsType, setDictsType] = useState<OptionsInterface[]>([]);
-
-    useEffect(() => {
-        getDictByKey('dicts_type').then(res => {
-            setDictsType(res.data.items)
-        });
-    }, [])
-
-    const columns: ColumnsType<SysDict> = [
+    const columns: ColumnsType<SysExceptionLog> = [
         {
             title: 'ID',
             dataIndex: 'id',
             align: 'center'
         },
         {
-            title: '类型标识',
-            dataIndex: 'type',
+            title: '操作员名称',
+            dataIndex: 'operUserName',
             align: 'center'
         },
         {
-            title: '描述',
-            dataIndex: 'description',
+            title: '异常名称',
+            dataIndex: 'excName',
             align: 'center'
         },
         {
-            title: '字典类型',
-            dataIndex: 'system',
+            title: '操作方法',
+            dataIndex: 'operMethod',
             align: 'center',
-            render: (value: string, record: SysDict) => {
-                return DictUtil.generateDictItem(dictsType, value);
+            width: 200,
+            onCell: () => tableWidthHiddenStyle,
+            render: (text: string) => {
+                return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
             }
         },
         {
-            title: '备注信息',
-            dataIndex: 'remarks',
+            title: '请求URL',
+            dataIndex: 'operUri',
+            align: 'center',
+            width: 150,
+            onCell: () => tableWidthHiddenStyle,
+            render: (text: string) => {
+                return <Tooltip placement="topLeft" title={text}>{text}</Tooltip>
+            }
+        },
+        {
+            title: '请求IP',
+            dataIndex: 'operIp',
+            align: 'center'
+        },
+        {
+            title: '版本号',
+            dataIndex: 'operVer',
             align: 'center'
         },
         {
@@ -80,36 +94,16 @@ const Dicts: React.FC = () => {
         {
             title: '操作',
             key: 'action',
-            render: (text, record: SysDict) => {
+            render: (text, record: SysExceptionLog) => {
                 const item: IOperator[] = [
                     {
-                        title: '字典项',
-                        permission: ['sys:dict:item:list'],
-                        onClick: () => {
-                            showDictItemModal(record.id!, `${record.description} ( ${record.type} ) `, record.type)
-                        }
-                    },
-                    {
-                        title: '编辑',
-                        permission: ['sys:dict:edit'],
+                        title: '详情',
+                        permission: ['sys:exception:log:info'],
                         onClick: () => {
                             showEditDictModal(record.id!);
                         }
                     }
                 ];
-
-                if (record.id !== 1) {
-                    item.push({
-                        title: '删除',
-                        danger: true,
-                        icon: <DeleteOutlined />,
-                        permission: ['sys:dict:delete'],
-                        message: `是否删除该字典 [ ${record.description} ] ?`,
-                        onClick: () => {
-                            handleDelete(record.id!);
-                        }
-                    })
-                }
 
                 return (
                     <HappyOperator items={item} />
@@ -118,50 +112,42 @@ const Dicts: React.FC = () => {
         },
     ];
 
-    const handleDelete = (id: number) => {
-        delDict(id).then(res => {
-            setIsRefresh(!isRefresh);
-        })
-    }
-
-    const showDictItemModal = (id: number, name: string, type: string) => {
-        setId(id);
-        setType(type);
-        setDictName(name);
-        setIsDictItemVisible(true);
-    }
-
-    const closeDictItemModal = () => {
-        setIsDictItemVisible(false);
-    }
-
     const showEditDictModal = (id: number) => {
         setId(id);
-        setEdit(true);
-        setIsSaveVisible(true);
+        setShowVisible(true);
     }
 
-    const showSaveDictModal = () => {
-        setIsSaveVisible(true);
-        setEdit(false);
-    }
+    const handleSearch = (values: { operUserName: string, time: moment.Moment[] }) => {
+        const { operUserName, time } = values
 
-    const closeSaveDictModal = () => {
-        setIsSaveVisible(false);
-        setIsRefresh(!isRefresh);
-    }
+        let par = {
+            ...params,
+            ...{
+                operUserName
+            }
+        }
 
-    const handleSearch = (values: { type: string, system: number }) => {
-        setParams({ ...params, ...values })
+        if (time !== undefined) {
+            par = {
+                ...par,
+                ...{
+                    startAt: time[0].format('YYYY-MM-DD HH:mm:ss'),
+                    endAt: time[1].format('YYYY-MM-DD HH:mm:ss')
+                }
+            }
+        }
+        setParams(par)
     }
 
     const searchDom = (
         <Form form={form} layout="inline" name="search-dict" onFinish={(values) => handleSearch(values)}>
-            <Form.Item name={'type'} label={'类型名称'}>
-                <Input placeholder="类型名称" />
+            <Form.Item name={'operUserName'} label={'操作者'}>
+                <Input placeholder="操作者" />
             </Form.Item>
 
-            <HappyDictForm type={"dicts_type"} name={"system"} style={{ width: 180 }} />
+            <Form.Item name={'time'} label={'操作时间'}>
+                <RangePicker showTime />
+            </Form.Item>
 
             <Form.Item>
                 <Button type="primary" htmlType="submit">
@@ -174,40 +160,25 @@ const Dicts: React.FC = () => {
     return (
         <>
             <HappyTable
-                rowKey={(record: SysDict) => record.id!}
+                rowKey={(record: SysExceptionLog) => record.id!}
                 columns={columns}
                 search={searchDom}
-                url={getDictList()}
-                isVisible={isRefresh}
+                url={getExceptionLoginList()}
                 params={params}
                 reload={{
-                    hasPremiss: ['sys:dict:list']
+                    hasPremiss: ['sys:exception:log:list']
                 }}
                 plus={{
-                    click: () => showSaveDictModal(),
-                    hasPremiss: ['sys:dict:save']
+                    hide: true
                 }}
                 quickJump={(page: number) => {
                     setParams({ ...params, ...{ current: page } })
                 }}
             />
 
-            <SaveDictsModal
-                isVisible={isSaveVisible}
-                isEdit={edit}
-                id={id}
-                closeModal={() => closeSaveDictModal()}
-            />
-
-            <DictItem
-                id={id}
-                type={type}
-                name={dictName}
-                isVisible={isDictItemVisible}
-                closeModal={() => closeDictItemModal()}
-            />
+            <HappyExceptionLogDetails id={id} isVisible={showVisible} closeModel={() => setShowVisible(false)} />
         </>
     );
 }
 
-export default Dicts;
+export default OperLog;

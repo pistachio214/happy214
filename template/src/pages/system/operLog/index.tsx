@@ -7,11 +7,11 @@ import { IOperator } from "@/types/IOperator";
 import HappyOperator from "@/component/happy-operator";
 import HappyTable from "@/component/happy-table";
 import { QuestionType } from "@/types/Common";
-import { getOperLogList, findOperLog } from '@/api/logs'
+import { getOperLogList } from '@/api/logs';
 import { SysOperLog } from "@/types/SysLog";
 
 import * as moment from "moment";
-import HappyOperLogDetails from "@/component/happy-operlog/info";
+import HappyOperLogDetails from "@/component/happy-log/oper";
 
 interface OperLogQuestionType extends QuestionType {
     operUserName?: string
@@ -147,7 +147,7 @@ const OperLog: React.FC = () => {
             }
         }
 
-        if (time != undefined) {
+        if (time !== undefined) {
             par = {
                 ...par,
                 ...{
@@ -196,7 +196,7 @@ const OperLog: React.FC = () => {
                 }}
             />
 
-            <HappyOperLogDetails isVisible={showVisible} closeModel={() => setShowVisible(false)} />
+            <HappyOperLogDetails id={id} isVisible={showVisible} closeModel={() => setShowVisible(false)} />
         </>
     );
 }
