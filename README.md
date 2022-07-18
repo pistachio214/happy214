@@ -40,9 +40,6 @@
 
 ## 作者
 
-感谢这些项目的维护者：
-
-
 - [happy211](https://github.com/RogerPeng123) - 项目作者，全栈工程师。
 
 </details>

@@ -14,6 +14,18 @@ cp .env.example .env
 yarn run start
 ```
 
+## 作者
+
+- [happy211](https://github.com/RogerPeng123) - 项目作者。
+
+<span id="nav-9"></span>
+
+## 特别感谢
+
+- Spring boot
+
+<span id="nav-15"></span>
+
 ## 版权许可
 
 [License MIT](LICENSE)

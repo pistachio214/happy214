@@ -19,7 +19,6 @@
 ## 特别感谢
 
 - Spring boot
-- Ant Design
 
 <span id="nav-15"></span>
 
