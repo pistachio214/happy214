@@ -25,7 +25,7 @@
 ## 架构
 
 ```
-|—— cloud
+|—— cloud                             Java服务
   |—— happy-common                    公共模块
   |—— happy-framework                 框架模块
   |—— happy-system                    系统模块
