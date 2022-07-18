@@ -20,50 +20,34 @@
 
 <span id="nav-4"></span>
 
-## 图形演示
-
-[![单击 Gif 查看完整演示](https://cdn.jsdelivr.net/gh/misitebao/CDN@main/md/template-git-repository-mini.gif)](https://www.bilibili.com/video/BV1d64y1B7pe?share_source=copy_web)
-
 <span id="nav-6"></span>
 
 ## 架构
 
 ```
-|—— happy-common                    公共模块
-|—— happy-framework                 框架模块
-|—— happy-system                    系统模块
-|—— happy-admin                     后台接口模块
-| |—— system                        后台系统接口
-|—— .gitignore                      git忽略文件
-|—— pom.xml                         maven配置文件
-|—— README.md                       README
+|—— cloud
+  |—— happy-common                    公共模块
+  |—— happy-framework                 框架模块
+  |—— happy-system                    系统模块
+  |—— happy-admin                     后台接口模块
+  | |—— system                        后台系统接口
+  |—— .gitignore                      git忽略文件
+  |—— pom.xml                         maven配置文件
+  |—— README.md                       README
+|—— template                          管理页面
+  |—— src                             核心代码
 ```
 
 ## 作者
 
 感谢这些项目的维护者：
 
-<details>
 
 - [happy211](https://github.com/RogerPeng123) - 项目作者，全栈工程师。
 
 </details>
 
-<span id="nav-9"></span>
-
-## 使用说明
-
-> 如果你的项目使用了此规范，你可以 Fork 此项目并[提交 PR](https://github.com/misitebao/standard-repository/pulls) 将您的项目添加在此列表，以便于让其他人知道您的项目。
-
 <span id="nav-12"></span>
-
-<!-- ## 捐赠者 -->
-
-<span id="nav-13"></span>
-
-<!-- ## 赞助商 -->
-
-<span id="nav-14"></span>
 
 ## 特别感谢
 
